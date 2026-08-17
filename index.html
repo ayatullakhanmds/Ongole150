@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongole 150 Years (1876 - 2026)</title>
+    <style>
+        :root {
+            --ongole-green: #14592d;
+            --ongole-gold: #c6a254;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 5%; position: sticky; top: 0; z-index: 100;
+        }
+
+        .logo-container img { height: 75px; }
+
+        nav button {
+            background: none; border: none; font-size: 16px; font-weight: 600;
+            color: var(--ongole-green); cursor: pointer; margin-left: 20px;
+        }
+
+        nav button:hover { color: var(--ongole-gold); }
+
+        .hero {
+            text-align: center; padding: 50px 20px;
+            background: linear-gradient(135deg, var(--ongole-green) 0%, #1e8745 100%);
+            color: white;
+        }
+
+        /* Continuous Scrolling Gallery */
+        .gallery-section { padding: 40px 0; background: white; text-align: center; overflow: hidden; }
+        .gallery-wrapper { display: flex; overflow: hidden; width: 100%; position: relative; }
+        .gallery-container { display: flex; width: max-content; animation: scrollGallery 25s linear infinite; }
+        .gallery-container:hover { animation-play-state: paused; }
+        .gallery-item { width: 300px; height: 200px; margin: 0 15px; border-radius: 8px; object-fit: cover; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        @keyframes scrollGallery {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Events Section */
+        .events-section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        .event-card {
+            background: white; padding: 20px; border-left: 5px solid var(--ongole-gold);
+            margin-bottom: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* Modal & Admin Dashboard */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 8px; width: 320px; text-align: center; }
+        .modal-content input { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
+        
+        #adminDashboard { display: none; padding: 20px; background: #fff3cd; text-align: center; border-bottom: 2px solid var(--ongole-gold); }
+        .admin-box { background: white; padding: 15px; margin: 10px auto; max-width: 500px; border-radius: 6px; border: 1px solid #ddd; }
+        
+        .btn-primary { background: var(--ongole-green); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .btn-primary:hover { background: var(--ongole-gold); }
+        .btn-danger { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="232618.jpg" alt="Ongole 150 Years Logo">
+        </div>
+        <nav>
+            <button onclick="document.getElementById('home').scrollIntoView()">Home</button>
+            <button onclick="document.getElementById('gallery').scrollIntoView()">Gallery</button>
+            <button onclick="document.getElementById('events').scrollIntoView()">Events</button>
+            <button onclick="openModal()">Admin Login</button>
+        </nav>
+    </header>
+
+    <div id="adminDashboard">
+        <h2>Admin Control Panel</h2>
+        
+        <div class="admin-box">
+            <h3>Upload Image to Drive</h3>
+            <input type="file" id="fileInput" accept="image/*"><br><br>
+            <button class="btn-primary" onclick="uploadFile()">Upload Photo</button>
+        </div>
+
+        <div class="admin-box">
+            <h3>Add New Event</h3>
+            <input type="text" id="eventTitle" placeholder="Event Title" style="width:90%; margin:4px;"><br>
+            <input type="date" id="eventDate" style="width:90%; margin:4px;"><br>
+            <textarea id="eventDesc" placeholder="Description" style="width:90%; margin:4px; height:60px;"></textarea><br>
+            <button class="btn-primary" onclick="addEvent()">Post Event</button>
+        </div>
+
+        <p id="adminStatus" style="font-weight: bold; color: var(--ongole-green);"></p>
+        <button class="btn-danger" onclick="logout()">Logout</button>
+    </div>
+
+    <section id="home" class="hero">
+        <h1>Celebrating 150 Years of Ongole</h1>
+        <p>1876 - 2026 | Honoring Heritage, Pride & Progress</p>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <h2 style="color: var(--ongole-green);">Historical Gallery</h2>
+        <div class="gallery-wrapper">
+            <div class="gallery-container" id="galleryContainer">
+                <p>Loading historical photos...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="events-section">
+        <h2 style="color: var(--ongole-green); text-align: center;">Anniversary Events</h2>
+        <div id="eventsContainer">
+            <p style="text-align: center;">Loading upcoming events...</p>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: var(--ongole-green);">Admin Login</h3>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button class="btn-primary" style="width: 100%;" onclick="login()">Sign In</button>
+            <p id="loginError" style="color: red; display: none; font-size: 13px;">Invalid Credentials</p>
+        </div>
+    </div>
+
+    <script>
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzh_XhyhPoTJmlIY0_2ZXO0fJs46DejorRJKzoCiPIq8pMthi5lDbSAaBSmrrfA03Q9/exec";
+
+        // Admin Auth
+        function openModal() { document.getElementById("loginModal").style.display = "block"; }
+        function closeModal() { document.getElementById("loginModal").style.display = "none"; }
+        
+        function login() {
+            if(document.getElementById("username").value === "admin" && 
+               document.getElementById("password").value === "ongole150") {
+                closeModal();
+                document.getElementById("adminDashboard").style.display = "block";
+                loadEvents();
+            } else {
+                document.getElementById("loginError").style.display = "block";
+            }
+        }
+
+        function logout() {
+            document.getElementById("adminDashboard").style.display = "none";
+            loadEvents();
+        }
+
+        // Fetch Scrolling Images from Drive
+        async function fetchImages() {
+            try {
+                const res = await fetch(`${GAS_WEB_APP_URL}?action=getImages`);
+                const images = await res.json();
+                const container = document.getElementById("galleryContainer");
+                container.innerHTML = "";
+
+                if(images.length === 0) {
+                    container.innerHTML = "<p>No gallery images uploaded yet.</p>";
+                    return;
+                }
+
+                const renderList = [...images, ...images];
+                renderList.forEach(img => {
+                    const imageEl = document.createElement("img");
+                    imageEl.className = "gallery-item";
+                    imageEl.src = img.url;
+                    imageEl.alt = img.name;
+                    container.appendChild(imageEl);
+                });
+            } catch (err) {
+                console.error("Gallery loading error:", err);
+            }
+        }
+
+        // Upload File via Web App
+        function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const status = document.getElementById("adminStatus");
+            const file = fileInput.files[0];
+            if (!file) return alert("Select an image first.");
+
+            status.innerText = "Uploading photo to Google Drive...";
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const payload = {
+                    action: "uploadImage",
+                    fileName: file.name,
+                    mimeType: file.type,
+                    fileData: e.target.result.split(',')[1]
+                };
+
+                fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) })
+                .then(res => res.json())
+                .then(data => {
+                    status.innerText = "Photo uploaded successfully!";
+                    fileInput.value = "";
+                    fetchImages();
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Load Events from Sheet
+        async function loadEvents() {
+            const container = document.getElementById("eventsContainer");
+            const isAdmin = document.getElementById("adminDashboard").style.display === "block";
+
+            try {
+                const res = await fetch(GAS_WEB_APP_URL);
+                const events = await res.json();
+                container.innerHTML = "";
+
+                if(events.length === 0) {
+                    container.innerHTML = "<p style='text-align:center;'>No upcoming events listed.</p>";
+                    return;
+                }
+
+                events.forEach(evt => {
+                    const card = document.createElement("div");
+                    card.className = "event-card";
+                    card.innerHTML = `
+                        <h3>${evt.title}</h3>
+                        <p><strong>Date:</strong> ${evt.date}</p>
+                        <p>${evt.description}</p>
+                        ${isAdmin ? `<button class="btn-danger" onclick="deleteEvent('${evt.id}')">Delete Event</button>` : ''}
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                container.innerHTML = "<p style='text-align:center;'>Unable to load events.</p>";
+            }
+        }
+
+        // Add Event
+        function addEvent() {
+            const title = document.getElementById("eventTitle").value;
+            const date = document.getElementById("eventDate").value;
+            const description = document.getElementById("eventDesc").value;
+            if(!title || !date) return alert("Title and date are required.");
+
+            document.getElementById("adminStatus").innerText = "Posting event...";
+            fetch(GAS_WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "addEvent", title, date, description })
+            })
+            .then(res => res.json())
+            .then(() => {
+                document.getElementById("adminStatus").innerText = "Event posted!";
+                document.getElementById("eventTitle").value = "";
+                document.getElementById("eventDate").value = "";
+                document.getElementById("eventDesc").value = "";
+                loadEvents();
+            });
+        }
+
+        // Delete Event
+        function deleteEvent(id) {
+            if(!confirm("Delete this event?")) return;
+            fetch(GAS_WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "deleteEvent", id })
+            })
+            .then(() => loadEvents());
+        }
+
+        window.onload = function() {
+            fetchImages();
+            loadEvents();
+        };
+    </script>
+</body>
+</html>
