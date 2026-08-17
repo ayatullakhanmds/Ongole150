@@ -91,9 +91,9 @@
         <h2>Admin Control Panel</h2>
         
         <div class="admin-box">
-            <h3>Upload Image to Drive</h3>
-            <input type="file" id="fileInput" accept="image/*"><br><br>
-            <button class="btn-primary" onclick="uploadFile()">Upload Photo</button>
+            <h3>Upload Images to Drive</h3>
+            <input type="file" id="fileInput" accept="image/*" multiple><br><br>
+            <button class="btn-primary" onclick="uploadFile()">Upload Photos</button>
         </div>
 
         <div class="admin-box">
@@ -189,32 +189,57 @@
             }
         }
 
-        // Upload File via Web App
-        function uploadFile() {
+        // Helper function to read file as Base64 Promise
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+                reader.onerror = (err) => reject(err);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Batch Upload Multiple Files to Google Drive
+        async function uploadFile() {
             const fileInput = document.getElementById("fileInput");
             const status = document.getElementById("adminStatus");
-            const file = fileInput.files[0];
-            if (!file) return alert("Select an image first.");
+            const files = fileInput.files;
 
-            status.innerText = "Uploading photo to Google Drive...";
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const payload = {
-                    action: "uploadImage",
-                    fileName: file.name,
-                    mimeType: file.type,
-                    fileData: e.target.result.split(',')[1]
-                };
+            if (!files || files.length === 0) return alert("Please select at least one image.");
 
-                fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) })
-                .then(res => res.json())
-                .then(data => {
-                    status.innerText = "Photo uploaded successfully!";
-                    fileInput.value = "";
-                    fetchImages();
-                });
-            };
-            reader.readAsDataURL(file);
+            let successCount = 0;
+            const totalFiles = files.length;
+
+            for (let i = 0; i < totalFiles; i++) {
+                const file = files[i];
+                status.innerText = `Uploading photo ${i + 1} of ${totalFiles} (${file.name})...`;
+
+                try {
+                    const base64Data = await readFileAsBase64(file);
+                    const payload = {
+                        action: "uploadImage",
+                        fileName: file.name,
+                        mimeType: file.type,
+                        fileData: base64Data
+                    };
+
+                    const res = await fetch(GAS_WEB_APP_URL, {
+                        method: "POST",
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+
+                    if (data.status === "success") {
+                        successCount++;
+                    }
+                } catch (err) {
+                    console.error(`Failed to upload ${file.name}:`, err);
+                }
+            }
+
+            status.innerText = `Successfully uploaded ${successCount} of ${totalFiles} photos!`;
+            fileInput.value = "";
+            fetchImages();
         }
 
         // Load Events from Sheet
