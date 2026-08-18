@@ -52,11 +52,12 @@
         .social-icon { color: var(--ongole-green); font-size: 1rem; transition: var(--transition); }
         .social-icon:hover { color: var(--ongole-gold); transform: translateY(-2px); }
 
-        /* Hero Banner */
+        /* Hero Banner with Custom Background Image */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(11,66,33,0.94) 0%, rgba(18,104,52,0.88) 100%), center/cover;
-            color: white; text-align: center; padding: 110px 20px;
+            background: linear-gradient(135deg, rgba(11,66,33,0.92) 0%, rgba(18,104,52,0.85) 100%), 
+                        url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10') center/cover no-repeat;
+            color: white; text-align: center; padding: 120px 20px;
         }
         .hero-badge {
             background: var(--ongole-gold); color: #000; font-weight: 700;
@@ -64,8 +65,8 @@
             display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;
             box-shadow: 0 4px 12px rgba(197, 160, 40, 0.4);
         }
-        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-        .hero p { font-size: 1.15rem; max-width: 680px; margin: 0 auto 30px; opacity: 0.95; font-weight: 300; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        .hero p { font-size: 1.15rem; max-width: 680px; margin: 0 auto 30px; opacity: 0.95; font-weight: 300; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 
         /* Section Global */
         .section-title { text-align: center; color: var(--ongole-green); font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
