@@ -32,7 +32,7 @@
         }
 
         .logo-container { display: flex; align-items: center; gap: 12px; }
-        .logo-container img { height: 60px; border-radius: 6px; }
+        .logo-container img { height: 60px; border-radius: 6px; object-fit: cover; }
         .logo-text h1 { font-size: 1.2rem; color: var(--ongole-green); font-weight: 800; line-height: 1.2; }
         .logo-text span { font-size: 0.8rem; color: var(--ongole-gold-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -51,7 +51,7 @@
         /* Hero Banner */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(15,82,41,0.92) 0%, rgba(24,122,62,0.85) 100%), url('232618.jpg') center/cover;
+            background: linear-gradient(135deg, rgba(15,82,41,0.92) 0%, rgba(24,122,62,0.85) 100%), center/cover;
             color: white; text-align: center; padding: 90px 20px;
         }
         .hero-badge {
@@ -96,9 +96,10 @@
         .media-tag {
             position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7);
             color: white; padding: 4px 10px; font-size: 0.75rem; border-radius: 12px; font-weight: 600;
+            z-index: 2;
         }
         .gallery-info { padding: 12px; }
-        .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; }
+        .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; word-break: break-all; }
         .gallery-info span { font-size: 0.8rem; color: #888; }
 
         /* Events Section */
@@ -180,7 +181,7 @@
                     <option value="Day 3">Day 3 Celebrations</option>
                     <option value="Historical Archive">Historical Archive</option>
                 </select>
-                <button class="btn-primary" style="width:100%;" onclick="uploadFile()">Upload Media</button>
+                <button class="btn-primary" style="width:100%;" onclick="uploadFiles()">Upload Media</button>
             </div>
 
             <div class="admin-box">
@@ -242,12 +243,12 @@
 
             <!-- Category / Day Filters -->
             <div class="filter-container">
-                <button class="filter-btn active" onclick="filterGallery('all')">All Media</button>
-                <button class="filter-btn" onclick="filterGallery('Day 1')">Day 1</button>
-                <button class="filter-btn" onclick="filterGallery('Day 2')">Day 2</button>
-                <button class="filter-btn" onclick="filterGallery('Day 3')">Day 3</button>
-                <button class="filter-btn" onclick="filterGallery('video')"><i class="fa-solid fa-video"></i> Videos</button>
-                <button class="filter-btn" onclick="filterGallery('Historical Archive')">Archives</button>
+                <button class="filter-btn active" onclick="filterGallery('all', this)">All Media</button>
+                <button class="filter-btn" onclick="filterGallery('Day 1', this)">Day 1</button>
+                <button class="filter-btn" onclick="filterGallery('Day 2', this)">Day 2</button>
+                <button class="filter-btn" onclick="filterGallery('Day 3', this)">Day 3</button>
+                <button class="filter-btn" onclick="filterGallery('video', this)"><i class="fa-solid fa-video"></i> Videos</button>
+                <button class="filter-btn" onclick="filterGallery('Historical Archive', this)">Archives</button>
             </div>
 
             <!-- Media Container -->
@@ -260,7 +261,7 @@
     <!-- Events Section -->
     <section id="events" class="container">
         <h2 class="section-title">Anniversary Events & Programs</h2>
-        <p class="section-subtitle">Join us in celebrating 150 days of cultural shows, heritage walks, and public gatherings.</p>
+        <p class="section-subtitle">Join us in celebrating cultural shows, heritage walks, and public gatherings.</p>
 
         <div id="eventsContainer" class="events-container">
             <p style="text-align: center;">Loading upcoming events...</p>
@@ -275,6 +276,7 @@
             <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
             <button class="btn-primary" style="width: 100%;" onclick="login()">Sign In</button>
             <p id="loginError" style="color: red; display: none; font-size: 13px; margin-top: 10px;">Invalid Credentials</p>
+            <button style="background: none; border: none; color: #666; margin-top: 15px; cursor: pointer; font-size: 0.85rem;" onclick="closeModal()">Cancel</button>
         </div>
     </div>
 
@@ -295,8 +297,14 @@
     </footer>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzh_XhyhPoTJmlIY0_2ZXO0fJs46DejorRJKzoCiPIq8pMthi5lDbSAaBSmrrfA03Q9/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw_ErCzv1njDFvhW5yiOi4bZIJghwzMkZuTlyFjn_Tw628hnkuE1usz8tHmOgCJUZVc/exec";
         let allMediaData = [];
+        let allEventsData = [];
+
+        window.onload = function() {
+            fetchImages();
+            fetchEvents();
+        };
 
         function scrollToSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
@@ -307,19 +315,23 @@
         function closeModal() { document.getElementById("loginModal").style.display = "none"; }
         
         function login() {
-            if(document.getElementById("username").value === "admin" && 
-               document.getElementById("password").value === "ongole150") {
+            const userField = document.getElementById("username");
+            const passField = document.getElementById("password");
+            const errorMsg = document.getElementById("loginError");
+
+            if (userField.value.trim() === "admin" && passField.value === "ongole150") {
+                errorMsg.style.display = "none";
                 closeModal();
                 document.getElementById("adminDashboard").style.display = "block";
-                loadEvents();
+                userField.value = "";
+                passField.value = "";
             } else {
-                document.getElementById("loginError").style.display = "block";
+                errorMsg.style.display = "block";
             }
         }
 
         function logout() {
             document.getElementById("adminDashboard").style.display = "none";
-            loadEvents();
         }
 
         // Fetch Images & Videos
@@ -339,12 +351,12 @@
             container.innerHTML = "";
 
             if (!items || items.length === 0) {
-                container.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No photos or videos uploaded for this tag yet.</p>";
+                container.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No photos or videos available yet.</p>";
                 return;
             }
 
             items.forEach(item => {
-                const isVideo = item.mimeType ? item.mimeType.includes("video") : (item.name && item.name.match(/\.(mp4|webm|mov)$/i));
+                const isVideo = item.mimeType && (item.mimeType.includes("video") || item.mimeType.indexOf("video/") === 0) || (item.name && item.name.match(/\.(mp4|webm|mov)$/i));
                 const dayTag = item.day || "Day 1";
 
                 const card = document.createElement("div");
@@ -359,4 +371,181 @@
                             <source src="${item.url}" type="${item.mimeType || 'video/mp4'}">
                             Your browser does not support video playback.
                         </video>
-              
+                        <div class="gallery-info">
+                            <h4>${item.name}</h4>
+                            <span>Uploaded file</span>
+                        </div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <span class="media-tag">${dayTag}</span>
+                        <img src="${item.url}" alt="${item.name}" class="gallery-media" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Ongole+150'">
+                        <div class="gallery-info">
+                            <h4>${item.name}</h4>
+                            <span>Commemoration Gallery</span>
+                        </div>
+                    `;
+                }
+                container.appendChild(card);
+            });
+        }
+
+        function filterGallery(filter, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.gallery-card');
+            cards.forEach(card => {
+                const day = card.getAttribute("data-day");
+                const type = card.getAttribute("data-type");
+
+                if (filter === 'all') {
+                    card.style.display = "block";
+                } else if (filter === 'video') {
+                    card.style.display = (type === 'video') ? "block" : "none";
+                } else {
+                    card.style.display = (day === filter) ? "block" : "none";
+                }
+            });
+        }
+
+        // Fetch Events
+        async function fetchEvents() {
+            try {
+                const res = await fetch(`${GAS_WEB_APP_URL}?action=getEvents`);
+                allEventsData = await res.json();
+                renderEvents(allEventsData);
+            } catch (err) {
+                console.error("Events loading error:", err);
+                document.getElementById("eventsContainer").innerHTML = "<p style='text-align: center;'>Unable to load scheduled events.</p>";
+            }
+        }
+
+        function renderEvents(events) {
+            const container = document.getElementById("eventsContainer");
+            container.innerHTML = "";
+
+            if (!events || events.length === 0) {
+                container.innerHTML = "<p style='text-align: center;'>No anniversary events scheduled yet.</p>";
+                return;
+            }
+
+            events.forEach(ev => {
+                const card = document.createElement("div");
+                card.className = "event-card";
+                
+                let dateDisplay = ev.date;
+                try {
+                    const d = new Date(ev.date);
+                    if(!isNaN(d)) {
+                        dateDisplay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    }
+                } catch(e) {}
+
+                card.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: flex-start;">
+                        <div class="event-date-badge">
+                            <i class="fa-solid fa-calendar-days"></i><br>
+                            <span style="font-size:0.8rem;">${dateDisplay}</span>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--ongole-green); margin-bottom: 5px;">${ev.title}</h3>
+                            <p style="color: #555; font-size: 0.95rem;">${ev.description || ''}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Upload Media via Dashboard
+        async function uploadFiles() {
+            const fileInput = document.getElementById("fileInput");
+            const dayTag = document.getElementById("uploadDayTag").value;
+            const statusEl = document.getElementById("adminStatus");
+
+            if (fileInput.files.length === 0) {
+                alert("Please select at least one file to upload.");
+                return;
+            }
+
+            statusEl.innerText = "Uploading files, please wait...";
+
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                const base64Data = await toBase64(file);
+
+                const payload = {
+                    action: "uploadMedia",
+                    fileName: file.name,
+                    mimeType: file.type,
+                    dayTag: dayTag,
+                    fileData: base64Data.split(",")[1]
+                };
+
+                try {
+                    await fetch(GAS_WEB_APP_URL, {
+                        method: "POST",
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {
+                    console.error("Upload error:", err);
+                }
+            }
+
+            statusEl.innerText = "Upload completed successfully!";
+            fileInput.value = "";
+            fetchImages();
+            setTimeout(() => { statusEl.innerText = ""; }, 4000);
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Add Event via Dashboard
+        async function addEvent() {
+            const title = document.getElementById("eventTitle").value;
+            const date = document.getElementById("eventDate").value;
+            const desc = document.getElementById("eventDesc").value;
+            const statusEl = document.getElementById("adminStatus");
+
+            if (!title || !date) {
+                alert("Please fill in both the event title and date.");
+                return;
+            }
+
+            statusEl.innerText = "Publishing event...";
+
+            const payload = {
+                action: "addEvent",
+                title: title,
+                date: date,
+                description: desc
+            };
+
+            try {
+                await fetch(GAS_WEB_APP_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
+
+                statusEl.innerText = "Event published successfully!";
+                document.getElementById("eventTitle").value = "";
+                document.getElementById("eventDate").value = "";
+                document.getElementById("eventDesc").value = "";
+                fetchEvents();
+                setTimeout(() => { statusEl.innerText = ""; }, 4000);
+            } catch (err) {
+                statusEl.innerText = "Failed to publish event.";
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
