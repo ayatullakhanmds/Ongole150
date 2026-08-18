@@ -3,128 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ongole 150 Years (1876 - 2026)</title>
+    <title>Ongole 150 Years Sesquicentennial Celebrations (1876 - 2026)</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --ongole-green: #14592d;
-            --ongole-gold: #c6a254;
-            --light-bg: #f8f9fa;
+            --ongole-green: #0f5229;
+            --ongole-green-light: #187a3e;
+            --ongole-gold: #d4af37;
+            --ongole-gold-dark: #b89128;
+            --dark-text: #1a202c;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 0;
-            background-color: var(--light-bg);
-            color: #333;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--light-bg); color: var(--dark-text); line-height: 1.6; }
 
+        /* Navigation Bar */
         header {
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 5%; position: sticky; top: 0; z-index: 100;
+            padding: 12px 5%; position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo-container img { height: 75px; }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-container img { height: 60px; border-radius: 6px; }
+        .logo-text h1 { font-size: 1.2rem; color: var(--ongole-green); font-weight: 800; line-height: 1.2; }
+        .logo-text span { font-size: 0.8rem; color: var(--ongole-gold-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
+        nav { display: flex; align-items: center; gap: 15px; }
         nav button {
-            background: none; border: none; font-size: 16px; font-weight: 600;
-            color: var(--ongole-green); cursor: pointer; margin-left: 20px;
+            background: none; border: none; font-size: 15px; font-weight: 600;
+            color: var(--dark-text); cursor: pointer; transition: var(--transition);
+            padding: 6px 12px; border-radius: 4px;
         }
+        nav button:hover { color: var(--ongole-green); background: #f0fdf4; }
 
-        nav button:hover { color: var(--ongole-gold); }
+        .social-header { display: flex; gap: 10px; margin-left: 15px; border-left: 1px solid #ddd; padding-left: 15px; }
+        .social-icon { color: var(--ongole-green); font-size: 1.1rem; transition: var(--transition); }
+        .social-icon:hover { color: var(--ongole-gold); transform: translateY(-2px); }
 
+        /* Hero Banner */
         .hero {
-            text-align: center; padding: 50px 20px;
-            background: linear-gradient(135deg, var(--ongole-green) 0%, #1e8745 100%);
-            color: white;
+            position: relative;
+            background: linear-gradient(135deg, rgba(15,82,41,0.92) 0%, rgba(24,122,62,0.85) 100%), url('232618.jpg') center/cover;
+            color: white; text-align: center; padding: 90px 20px;
         }
-
-        /* Continuous Scrolling Gallery */
-        .gallery-section { padding: 40px 0; background: white; text-align: center; overflow: hidden; }
-        .gallery-wrapper { display: flex; overflow: hidden; width: 100%; position: relative; }
-        .gallery-container { display: flex; width: max-content; animation: scrollGallery 25s linear infinite; }
-        .gallery-container:hover { animation-play-state: paused; }
-        .gallery-item { width: 300px; height: 200px; margin: 0 15px; border-radius: 8px; object-fit: cover; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-
-        @keyframes scrollGallery {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .hero-badge {
+            background: var(--ongole-gold); color: #000; font-weight: 700;
+            padding: 6px 16px; border-radius: 30px; font-size: 0.85rem;
+            display: inline-block; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1.5px;
         }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 25px; opacity: 0.95; }
+
+        /* Section Global */
+        .section-title { text-align: center; color: var(--ongole-green); font-size: 2rem; font-weight: 700; margin-bottom: 10px; position: relative; }
+        .section-subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1rem; }
+        .container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; }
+
+        /* Content / Heritage Section */
+        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .heritage-card {
+            background: white; border-radius: 12px; padding: 25px;
+            box-shadow: var(--shadow); border-top: 4px solid var(--ongole-gold);
+            transition: var(--transition);
+        }
+        .heritage-card:hover { transform: translateY(-5px); }
+        .heritage-card i { font-size: 2.2rem; color: var(--ongole-green); margin-bottom: 15px; }
+        .heritage-card h3 { color: var(--ongole-green); margin-bottom: 10px; font-size: 1.2rem; }
+
+        /* Day-Wise Filter Gallery */
+        .filter-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+        .filter-btn {
+            background: white; border: 1.5px solid var(--ongole-green); color: var(--ongole-green);
+            padding: 8px 18px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--ongole-green); color: white; }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-card {
+            background: white; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: var(--transition); position: relative;
+        }
+        .gallery-card:hover { transform: scale(1.02); box-shadow: var(--shadow); }
+        .gallery-media { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .media-tag {
+            position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7);
+            color: white; padding: 4px 10px; font-size: 0.75rem; border-radius: 12px; font-weight: 600;
+        }
+        .gallery-info { padding: 12px; }
+        .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; }
+        .gallery-info span { font-size: 0.8rem; color: #888; }
 
         /* Events Section */
-        .events-section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        .events-container { display: flex; flex-direction: column; gap: 20px; max-width: 850px; margin: 0 auto; }
         .event-card {
-            background: white; padding: 20px; border-left: 5px solid var(--ongole-gold);
-            margin-bottom: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: relative;
+            background: white; padding: 22px; border-left: 6px solid var(--ongole-gold);
+            border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; flex-wrap: wrap;
+        }
+        .event-date-badge {
+            background: #f0fdf4; color: var(--ongole-green); font-weight: 700;
+            padding: 10px 15px; border-radius: 8px; text-align: center; min-width: 90px;
         }
 
-        /* Modal & Admin Dashboard */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 8px; width: 320px; text-align: center; }
-        .modal-content input { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
-        
-        #adminDashboard { display: none; padding: 20px; background: #fff3cd; text-align: center; border-bottom: 2px solid var(--ongole-gold); }
-        .admin-box { background: white; padding: 15px; margin: 10px auto; max-width: 500px; border-radius: 6px; border: 1px solid #ddd; }
-        
-        .btn-primary { background: var(--ongole-green); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-        .btn-primary:hover { background: var(--ongole-gold); }
-        .btn-danger { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        /* Admin Control Panel */
+        #adminDashboard { display: none; background: #fffbe6; padding: 30px 20px; border-bottom: 3px solid var(--ongole-gold); }
+        .admin-flex { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1000px; margin: 0 auto; }
+        .admin-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex: 1; min-width: 300px; }
+        .admin-box h3 { color: var(--ongole-green); margin-bottom: 15px; font-size: 1.1rem; }
+        .admin-box input, .admin-box select, .admin-box textarea {
+            width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;
+        }
+
+        /* Buttons & Modal */
+        .btn-primary { background: var(--ongole-green); color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn-primary:hover { background: var(--ongole-green-light); }
+        .btn-danger { background: #e53e3e; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 12% auto; padding: 30px; border-radius: 12px; width: 340px; text-align: center; box-shadow: var(--shadow); }
+
+        /* Footer */
+        footer { background: #0b2e17; color: white; padding: 40px 20px 20px; text-align: center; margin-top: 50px; }
+        .footer-socials { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+        .footer-socials a { color: var(--ongole-gold); font-size: 1.5rem; transition: var(--transition); }
+        .footer-socials a:hover { color: white; transform: translateY(-3px); }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; text-align: center; }
+            .hero h1 { font-size: 2rem; }
+            .social-header { margin-left: 0; border-left: none; padding-left: 0; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-container">
-            <img src="232618.jpg" alt="Ongole 150 Years Logo">
+            <img src="232618.jpg" alt="Ongole 150 Years Logo" onerror="this.src='https://via.placeholder.com/60?text=OMC+150'">
+            <div class="logo-text">
+                <h1>ONGOLE CITY</h1>
+                <span>150 Years (1876 - 2026)</span>
+            </div>
         </div>
         <nav>
-            <button onclick="document.getElementById('home').scrollIntoView()">Home</button>
-            <button onclick="document.getElementById('gallery').scrollIntoView()">Gallery</button>
-            <button onclick="document.getElementById('events').scrollIntoView()">Events</button>
-            <button onclick="openModal()">Admin Login</button>
+            <button onclick="scrollToSec('home')">Home</button>
+            <button onclick="scrollToSec('heritage')">Heritage</button>
+            <button onclick="scrollToSec('gallery')">Gallery & Videos</button>
+            <button onclick="scrollToSec('events')">Events</button>
+            <button onclick="openModal()"><i class="fa-solid fa-lock"></i> Admin</button>
         </nav>
+        <div class="social-header">
+            <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://x.com" target="_blank" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://youtube.com" target="_blank" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+        </div>
     </header>
 
+    <!-- Admin Panel -->
     <div id="adminDashboard">
-        <h2>Admin Control Panel</h2>
-        
-        <div class="admin-box">
-            <h3>Upload Images to Drive</h3>
-            <input type="file" id="fileInput" accept="image/*" multiple><br><br>
-            <button class="btn-primary" onclick="uploadFile()">Upload Photos</button>
-        </div>
+        <h2 style="text-align: center; color: var(--ongole-green); margin-bottom: 20px;">Sesquicentennial Admin Dashboard</h2>
+        <div class="admin-flex">
+            <div class="admin-box">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Upload Media (Photo/Video)</h3>
+                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+                <select id="uploadDayTag">
+                    <option value="Day 1">Day 1 Celebrations</option>
+                    <option value="Day 2">Day 2 Celebrations</option>
+                    <option value="Day 3">Day 3 Celebrations</option>
+                    <option value="Historical Archive">Historical Archive</option>
+                </select>
+                <button class="btn-primary" style="width:100%;" onclick="uploadFile()">Upload Media</button>
+            </div>
 
-        <div class="admin-box">
-            <h3>Add New Event</h3>
-            <input type="text" id="eventTitle" placeholder="Event Title" style="width:90%; margin:4px;"><br>
-            <input type="date" id="eventDate" style="width:90%; margin:4px;"><br>
-            <textarea id="eventDesc" placeholder="Description" style="width:90%; margin:4px; height:60px;"></textarea><br>
-            <button class="btn-primary" onclick="addEvent()">Post Event</button>
+            <div class="admin-box">
+                <h3><i class="fa-solid fa-calendar-plus"></i> Post Anniversary Event</h3>
+                <input type="text" id="eventTitle" placeholder="Event Title">
+                <input type="date" id="eventDate">
+                <textarea id="eventDesc" placeholder="Event Details & Location"></textarea>
+                <button class="btn-primary" style="width:100%;" onclick="addEvent()">Publish Event</button>
+            </div>
         </div>
-
-        <p id="adminStatus" style="font-weight: bold; color: var(--ongole-green);"></p>
-        <button class="btn-danger" onclick="logout()">Logout</button>
+        <p id="adminStatus" style="text-align:center; margin-top:15px; font-weight:bold; color: var(--ongole-green);"></p>
+        <div style="text-align:center; margin-top: 15px;">
+            <button class="btn-danger" onclick="logout()">Exit Admin Dashboard</button>
+        </div>
     </div>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
-        <h1>Celebrating 150 Years of Ongole</h1>
-        <p>1876 - 2026 | Honoring Heritage, Pride & Progress</p>
+        <span class="hero-badge">1876 – 2026 Sesquicentennial</span>
+        <h1>150 Years of Glorious Ongole</h1>
+        <p>Honoring 150 Years of Heritage, Pride, Culture & Modern Transformation of Ongole Municipal Corporation.</p>
+        <button class="btn-primary" style="background: var(--ongole-gold); color:#000;" onclick="scrollToSec('heritage')">Explore Our History</button>
     </section>
 
-    <section id="gallery" class="gallery-section">
-        <h2 style="color: var(--ongole-green);">Historical Gallery</h2>
-        <div class="gallery-wrapper">
-            <div class="gallery-container" id="galleryContainer">
-                <p>Loading historical photos...</p>
+    <!-- Heritage & Content Section -->
+    <section id="heritage" class="container">
+        <h2 class="section-title">Heritage & Milestones</h2>
+        <p class="section-subtitle">Discover what makes Ongole a timeless cradle of history, culture, and economic strength.</p>
+        
+        <div class="heritage-grid">
+            <div class="heritage-card">
+                <i class="fa-solid fa-landmark-dome"></i>
+                <h3>150 Years Municipal Legacy</h3>
+                <p>Established as a municipality by the British Government on September 30, 1876, Ongole has evolved into a thriving Municipal Corporation.</p>
+            </div>
+            <div class="heritage-card">
+                <i class="fa-solid fa-cow"></i>
+                <h3>World-Famous Ongole Bull</h3>
+                <p>Renowned globally for strength and disease resistance, the legendary indigenous Ongole cattle breed remains the proud symbol of the city.</p>
+            </div>
+            <div class="heritage-card">
+                <i class="fa-solid fa-monument"></i>
+                <h3>Andhra Kesari Heritage</h3>
+                <p>Home of the legendary freedom fighter Tanguturi Prakasam Pantulu (Andhra Kesari), who led with unmatched courage and determination.</p>
+            </div>
+            <div class="heritage-card">
+                <i class="fa-solid fa-dharmachakra"></i>
+                <h3>Ashoka Dharma Chakra</h3>
+                <p>A striking 25-foot single-stone Ashoka Dharma Chakra tower unveiled at Church Junction stands as a lasting symbol of pride and peace.</p>
             </div>
         </div>
     </section>
 
-    <section id="events" class="events-section">
-        <h2 style="color: var(--ongole-green); text-align: center;">Anniversary Events</h2>
-        <div id="eventsContainer">
+    <!-- Day-Wise Gallery & Video Section -->
+    <section id="gallery" style="background: #edf2f7; padding: 50px 0;">
+        <div class="container">
+            <h2 class="section-title">Day-Wise Media Gallery</h2>
+            <p class="section-subtitle">Browse photos and videos captured across the 150th anniversary celebration events.</p>
+
+            <!-- Category / Day Filters -->
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterGallery('all')">All Media</button>
+                <button class="filter-btn" onclick="filterGallery('Day 1')">Day 1</button>
+                <button class="filter-btn" onclick="filterGallery('Day 2')">Day 2</button>
+                <button class="filter-btn" onclick="filterGallery('Day 3')">Day 3</button>
+                <button class="filter-btn" onclick="filterGallery('video')"><i class="fa-solid fa-video"></i> Videos</button>
+                <button class="filter-btn" onclick="filterGallery('Historical Archive')">Archives</button>
+            </div>
+
+            <!-- Media Container -->
+            <div class="gallery-grid" id="galleryContainer">
+                <p style="grid-column: 1/-1; text-align: center;">Loading celebration media...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="container">
+        <h2 class="section-title">Anniversary Events & Programs</h2>
+        <p class="section-subtitle">Join us in celebrating 150 days of cultural shows, heritage walks, and public gatherings.</p>
+
+        <div id="eventsContainer" class="events-container">
             <p style="text-align: center;">Loading upcoming events...</p>
         </div>
     </section>
@@ -132,16 +270,37 @@
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <h3 style="color: var(--ongole-green);">Admin Login</h3>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
+            <h3 style="color: var(--ongole-green); margin-bottom: 15px;">Admin Authentication</h3>
+            <input type="text" id="username" placeholder="Username" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
             <button class="btn-primary" style="width: 100%;" onclick="login()">Sign In</button>
-            <p id="loginError" style="color: red; display: none; font-size: 13px;">Invalid Credentials</p>
+            <p id="loginError" style="color: red; display: none; font-size: 13px; margin-top: 10px;">Invalid Credentials</p>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <h3>Ongole Municipal Corporation</h3>
+        <p>150 Years of Governance, Heritage & Progress (1876 - 2026)</p>
+        
+        <div class="footer-socials">
+            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://x.com" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://whatsapp.com" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+        
+        <p style="font-size: 0.85rem; opacity: 0.7;">&copy; 2026 Ongole 150 Years Celebration Committee. All rights reserved.</p>
+    </footer>
+
     <script>
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzh_XhyhPoTJmlIY0_2ZXO0fJs46DejorRJKzoCiPIq8pMthi5lDbSAaBSmrrfA03Q9/exec";
+        let allMediaData = [];
+
+        function scrollToSec(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
 
         // Admin Auth
         function openModal() { document.getElementById("loginModal").style.display = "block"; }
@@ -163,152 +322,41 @@
             loadEvents();
         }
 
-        // Fetch Scrolling Images from Drive
+        // Fetch Images & Videos
         async function fetchImages() {
             try {
                 const res = await fetch(`${GAS_WEB_APP_URL}?action=getImages`);
-                const images = await res.json();
-                const container = document.getElementById("galleryContainer");
-                container.innerHTML = "";
-
-                if(images.length === 0) {
-                    container.innerHTML = "<p>No gallery images uploaded yet.</p>";
-                    return;
-                }
-
-                const renderList = [...images, ...images];
-                renderList.forEach(img => {
-                    const imageEl = document.createElement("img");
-                    imageEl.className = "gallery-item";
-                    imageEl.src = img.url;
-                    imageEl.alt = img.name;
-                    container.appendChild(imageEl);
-                });
+                allMediaData = await res.json();
+                renderGallery(allMediaData);
             } catch (err) {
                 console.error("Gallery loading error:", err);
+                document.getElementById("galleryContainer").innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Unable to load media content.</p>";
             }
         }
 
-        // Helper function to read file as Base64 Promise
-        function readFileAsBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result.split(',')[1]);
-                reader.onerror = (err) => reject(err);
-                reader.readAsDataURL(file);
-            });
-        }
+        function renderGallery(items) {
+            const container = document.getElementById("galleryContainer");
+            container.innerHTML = "";
 
-        // Batch Upload Multiple Files to Google Drive
-        async function uploadFile() {
-            const fileInput = document.getElementById("fileInput");
-            const status = document.getElementById("adminStatus");
-            const files = fileInput.files;
-
-            if (!files || files.length === 0) return alert("Please select at least one image.");
-
-            let successCount = 0;
-            const totalFiles = files.length;
-
-            for (let i = 0; i < totalFiles; i++) {
-                const file = files[i];
-                status.innerText = `Uploading photo ${i + 1} of ${totalFiles} (${file.name})...`;
-
-                try {
-                    const base64Data = await readFileAsBase64(file);
-                    const payload = {
-                        action: "uploadImage",
-                        fileName: file.name,
-                        mimeType: file.type,
-                        fileData: base64Data
-                    };
-
-                    const res = await fetch(GAS_WEB_APP_URL, {
-                        method: "POST",
-                        body: JSON.stringify(payload)
-                    });
-                    const data = await res.json();
-
-                    if (data.status === "success") {
-                        successCount++;
-                    }
-                } catch (err) {
-                    console.error(`Failed to upload ${file.name}:`, err);
-                }
+            if (!items || items.length === 0) {
+                container.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No photos or videos uploaded for this tag yet.</p>";
+                return;
             }
 
-            status.innerText = `Successfully uploaded ${successCount} of ${totalFiles} photos!`;
-            fileInput.value = "";
-            fetchImages();
-        }
+            items.forEach(item => {
+                const isVideo = item.mimeType ? item.mimeType.includes("video") : (item.name && item.name.match(/\.(mp4|webm|mov)$/i));
+                const dayTag = item.day || "Day 1";
 
-        // Load Events from Sheet
-        async function loadEvents() {
-            const container = document.getElementById("eventsContainer");
-            const isAdmin = document.getElementById("adminDashboard").style.display === "block";
+                const card = document.createElement("div");
+                card.className = "gallery-card";
+                card.setAttribute("data-day", dayTag);
+                card.setAttribute("data-type", isVideo ? "video" : "image");
 
-            try {
-                const res = await fetch(GAS_WEB_APP_URL);
-                const events = await res.json();
-                container.innerHTML = "";
-
-                if(events.length === 0) {
-                    container.innerHTML = "<p style='text-align:center;'>No upcoming events listed.</p>";
-                    return;
-                }
-
-                events.forEach(evt => {
-                    const card = document.createElement("div");
-                    card.className = "event-card";
+                if (isVideo) {
                     card.innerHTML = `
-                        <h3>${evt.title}</h3>
-                        <p><strong>Date:</strong> ${evt.date}</p>
-                        <p>${evt.description}</p>
-                        ${isAdmin ? `<button class="btn-danger" onclick="deleteEvent('${evt.id}')">Delete Event</button>` : ''}
-                    `;
-                    container.appendChild(card);
-                });
-            } catch (err) {
-                container.innerHTML = "<p style='text-align:center;'>Unable to load events.</p>";
-            }
-        }
-
-        // Add Event
-        function addEvent() {
-            const title = document.getElementById("eventTitle").value;
-            const date = document.getElementById("eventDate").value;
-            const description = document.getElementById("eventDesc").value;
-            if(!title || !date) return alert("Title and date are required.");
-
-            document.getElementById("adminStatus").innerText = "Posting event...";
-            fetch(GAS_WEB_APP_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "addEvent", title, date, description })
-            })
-            .then(res => res.json())
-            .then(() => {
-                document.getElementById("adminStatus").innerText = "Event posted!";
-                document.getElementById("eventTitle").value = "";
-                document.getElementById("eventDate").value = "";
-                document.getElementById("eventDesc").value = "";
-                loadEvents();
-            });
-        }
-
-        // Delete Event
-        function deleteEvent(id) {
-            if(!confirm("Delete this event?")) return;
-            fetch(GAS_WEB_APP_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "deleteEvent", id })
-            })
-            .then(() => loadEvents());
-        }
-
-        window.onload = function() {
-            fetchImages();
-            loadEvents();
-        };
-    </script>
-</body>
-</html>
+                        <span class="media-tag"><i class="fa-solid fa-video"></i> Video (${dayTag})</span>
+                        <video class="gallery-media" controls>
+                            <source src="${item.url}" type="${item.mimeType || 'video/mp4'}">
+                            Your browser does not support video playback.
+                        </video>
+              
