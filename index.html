@@ -110,6 +110,20 @@
         .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .gallery-info span { font-size: 0.8rem; color: #94a3b8; }
 
+        /* YouTube Videos Section */
+        .youtube-section { background: #f1f5f9; padding: 60px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+        .youtube-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .youtube-card {
+            background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0; transition: var(--transition); display: flex; flex-direction: column;
+        }
+        .youtube-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .youtube-frame-wrapper { position: relative; width: 100%; height: 200px; background: #000; }
+        .youtube-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .youtube-info { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+        .youtube-info h4 { font-size: 1rem; color: var(--dark-text); font-weight: 700; line-height: 1.4; }
+        .youtube-info span { font-size: 0.8rem; color: var(--ongole-green); font-weight: 600; }
+
         /* Skeleton Loading Effect */
         .skeleton {
             background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
@@ -127,7 +141,7 @@
         .events-container { display: flex; flex-direction: column; gap: 16px; max-width: 850px; margin: 0 auto; }
         .event-card {
             background: white; padding: 24px; border-left: 6px solid var(--ongole-gold);
-            border-radius: 12px; box-shadow: var(--shadow-sm); border-top: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
+            border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9;
             display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;
             transition: var(--transition);
         }
@@ -185,6 +199,7 @@
             <button onclick="scrollToSec('home')">Home</button>
             <button onclick="scrollToSec('heritage')">Heritage</button>
             <button onclick="scrollToSec('gallery')">Gallery</button>
+            <button onclick="scrollToSec('videos')">Videos</button>
             <button onclick="scrollToSec('events')">Events</button>
             <button onclick="openModal()" style="color: var(--ongole-green); font-weight: 700;"><i class="fa-solid fa-lock"></i> Admin</button>
         </nav>
@@ -267,22 +282,52 @@
     <section id="gallery" style="background: #edf2f7; padding: 60px 0;">
         <div class="container">
             <h2 class="section-title">Day-Wise Media Gallery</h2>
-            <p class="section-subtitle">Browse memorable snapshots and videos captured across the landmark celebration events.</p>
+            <p class="section-subtitle">Browse memorable snapshots and media captured across landmark celebration events.</p>
 
             <div class="filter-container">
                 <button class="filter-btn active" onclick="filterGallery('all', this)">All Media</button>
                 <button class="filter-btn" onclick="filterGallery('Day 1', this)">Day 1</button>
                 <button class="filter-btn" onclick="filterGallery('Day 2', this)">Day 2</button>
                 <button class="filter-btn" onclick="filterGallery('Day 3', this)">Day 3</button>
-                <button class="filter-btn" onclick="filterGallery('video', this)"><i class="fa-solid fa-video"></i> Videos</button>
                 <button class="filter-btn" onclick="filterGallery('Historical Archive', this)">Archives</button>
             </div>
 
             <div class="gallery-grid" id="galleryContainer">
-                <!-- Skeleton Loaders for High-Speed UX -->
                 <div class="skeleton"></div>
                 <div class="skeleton"></div>
                 <div class="skeleton"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube Featured Coverage Section -->
+    <section id="videos" class="youtube-section">
+        <div class="container">
+            <h2 class="section-title">Official & News Video Coverage</h2>
+            <p class="section-subtitle">Watch televised coverages, reports, and feature spotlights showcasing the 150 years sesquicentennial celebration events.</p>
+            
+            <div class="youtube-grid">
+                <!-- Video 1 -->
+                <div class="youtube-card">
+                    <div class="youtube-frame-wrapper">
+                        <iframe src="https://www.youtube.com/embed/08S0rWoyHNc" title="Ongole Municipality 150 Years Celebrations - RTV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="youtube-info">
+                        <span>RTV Ongole</span>
+                        <h4>చరిత్రను చాటే ఒంగోలు 150 ఏళ్ల వేడుక | Ongole Municipality 150 Years Celebrations</h4>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="youtube-card">
+                    <div class="youtube-frame-wrapper">
+                        <iframe src="https://www.youtube.com/embed/3E9kEeDBthk" title="Prabhath News Coverage" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="youtube-info">
+                        <span>PRABHATH NEWS</span>
+                        <h4>ఘనచరితను గర్హిస్తూ.. అభివృద్ధిని ఆకాంక్షిస్తూ.. ఒంగోలు 150 వేడుకలు</h4>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -330,7 +375,6 @@
         let allMediaData = [];
         let allEventsData = [];
 
-        // Fetch data instantly on load
         window.addEventListener('DOMContentLoaded', () => {
             fetchImages();
             fetchEvents();
@@ -392,7 +436,6 @@
                 const card = document.createElement("div");
                 card.className = "gallery-card";
                 card.setAttribute("data-day", dayTag);
-                card.setAttribute("data-type", isVideo ? "video" : "image");
 
                 if (isVideo) {
                     card.innerHTML = `
@@ -426,12 +469,8 @@
             const cards = document.querySelectorAll('.gallery-card');
             cards.forEach(card => {
                 const day = card.getAttribute("data-day");
-                const type = card.getAttribute("data-type");
-
                 if (filter === 'all') {
                     card.style.display = "block";
-                } else if (filter === 'video') {
-                    card.style.display = (type === 'video') ? "block" : "none";
                 } else {
                     card.style.display = (day === filter) ? "block" : "none";
                 }
