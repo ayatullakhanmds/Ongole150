@@ -40,19 +40,24 @@
         .logo-text h1 { font-size: 1.35rem; color: var(--ongole-green); font-weight: 800; line-height: 1.1; letter-spacing: 0.5px; }
         .logo-text span { font-size: 0.82rem; color: var(--ongole-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
 
-        nav { display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         nav button {
             background: none; border: none; font-size: 14px; font-weight: 600;
             color: var(--dark-text); cursor: pointer; transition: var(--transition);
             padding: 8px 14px; border-radius: 6px;
         }
-        nav button:hover { color: var(--ongole-green); background: #f0fdf4; }
+        nav button:hover, nav button.active-nav { color: var(--ongole-green); background: #f0fdf4; }
 
         .social-header { display: flex; gap: 12px; margin-left: 15px; border-left: 1px solid #e2e8f0; padding-left: 15px; }
         .social-icon { color: var(--ongole-green); font-size: 1rem; transition: var(--transition); }
         .social-icon:hover { color: var(--ongole-gold); transform: translateY(-2px); }
 
-        /* Hero Banner with Custom Background Image */
+        /* Multi-page Section View Controller */
+        .page-section { display: none; }
+        .page-section.active-page { display: block; animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hero Banner */
         .hero {
             position: relative;
             background: linear-gradient(135deg, rgba(11,66,33,0.92) 0%, rgba(18,104,52,0.85) 100%), 
@@ -68,13 +73,39 @@
         .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
         .hero p { font-size: 1.15rem; max-width: 680px; margin: 0 auto 30px; opacity: 0.95; font-weight: 300; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 
+        /* Counters Bar */
+        .counters-bar { background: var(--ongole-green); color: white; padding: 30px 20px; display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; text-align: center; }
+        .counter-item h2 { font-size: 2.2rem; color: var(--ongole-gold); font-weight: 800; }
+        .counter-item p { font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9; }
+
         /* Section Global */
         .section-title { text-align: center; color: var(--ongole-green); font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
         .section-subtitle { text-align: center; color: #64748b; margin-bottom: 40px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
 
-        /* Heritage Grid Cards */
-        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 20px; }
+        /* Timeline Styles */
+        .timeline-container { position: relative; max-width: 900px; margin: 0 auto; padding: 20px 0; }
+        .timeline-container::after { content: ''; position: absolute; width: 4px; background: var(--ongole-gold); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-block { padding: 10px 40px; position: relative; background: inherit; width: 50%; }
+        .timeline-block::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background: white; border: 4px solid var(--ongole-green); top: 15px; border-radius: 50%; z-index: 1; }
+        .timeline-left { left: 0; }
+        .timeline-right { left: 50%; }
+        .timeline-right::after { left: -10px; }
+        .timeline-content { padding: 20px 25px; background: white; position: relative; border-radius: 12px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--ongole-gold); }
+        .timeline-content h3 { color: var(--ongole-green); font-size: 1.1rem; margin-bottom: 6px; }
+        .timeline-content p { font-size: 0.9rem; color: #64748b; }
+
+        /* Freedom Fighters Grid */
+        .fighters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .fighter-card { background: white; border-radius: 16px; padding: 30px; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9; border-top: 5px solid var(--ongole-green); text-align: center; transition: var(--transition); }
+        .fighter-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .fighter-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid var(--ongole-gold); }
+        .fighter-card h3 { color: var(--ongole-green); margin-bottom: 5px; font-size: 1.2rem; }
+        .fighter-card span { font-size: 0.8rem; color: var(--ongole-gold-dark, #b89128); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        .fighter-card p { font-size: 0.9rem; color: #64748b; }
+
+        /* Heritage Cards */
+        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
         .heritage-card {
             background: white; border-radius: 16px; padding: 30px 24px;
             box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9;
@@ -86,7 +117,7 @@
         .heritage-card h3 { color: var(--ongole-green); margin-bottom: 10px; font-size: 1.25rem; font-weight: 700; }
         .heritage-card p { color: #64748b; font-size: 0.95rem; }
 
-        /* Day-Wise Filter Gallery */
+        /* Gallery & Filters */
         .filter-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
         .filter-btn {
             background: white; border: 1.5px solid #cbd5e1; color: #475569;
@@ -125,19 +156,6 @@
         .youtube-info h4 { font-size: 1rem; color: var(--dark-text); font-weight: 700; line-height: 1.4; }
         .youtube-info span { font-size: 0.8rem; color: var(--ongole-green); font-weight: 600; }
 
-        /* Skeleton Loading Effect */
-        .skeleton {
-            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 12px;
-            height: 250px;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
         /* Events Section */
         .events-container { display: flex; flex-direction: column; gap: 16px; max-width: 850px; margin: 0 auto; }
         .event-card {
@@ -161,7 +179,6 @@
         .admin-box input, .admin-box select, .admin-box textarea {
             width: 100%; padding: 12px; margin-bottom: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; transition: var(--transition);
         }
-        .admin-box input:focus, .admin-box select:focus, .admin-box textarea:focus { border-color: var(--ongole-green); box-shadow: 0 0 0 3px rgba(11, 66, 33, 0.1); }
 
         /* Buttons & Modal */
         .btn-primary { background: var(--ongole-green); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 12px rgba(11, 66, 33, 0.2); }
@@ -169,8 +186,7 @@
         .btn-danger { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
         
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); }
-        .modal-content { background: white; margin: 12% auto; padding: 35px 30px; border-radius: 20px; width: 360px; text-align: center; box-shadow: var(--shadow-lg); animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content { background: white; margin: 12% auto; padding: 35px 30px; border-radius: 20px; width: 360px; text-align: center; box-shadow: var(--shadow-lg); }
 
         /* Footer */
         footer { background: #072613; color: white; padding: 50px 20px 25px; text-align: center; margin-top: 60px; border-top: 3px solid var(--ongole-gold); }
@@ -181,6 +197,10 @@
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 12px; text-align: center; padding: 15px; }
             .hero h1 { font-size: 2.2rem; }
+            .timeline-container::after { left: 31px; }
+            .timeline-block { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-right { left: 0%; }
+            .timeline-block::after { left: 21px; }
             .social-header { margin-left: 0; border-left: none; padding-left: 0; border-top: 1px solid #e2e8f0; padding-top: 10px; width: 100%; justify-content: center; }
             nav { flex-wrap: wrap; justify-content: center; }
         }
@@ -196,12 +216,14 @@
                 <span>150 Years (1876 - 2026)</span>
             </div>
         </div>
-        <nav>
-            <button onclick="scrollToSec('home')">Home</button>
-            <button onclick="scrollToSec('heritage')">Heritage</button>
-            <button onclick="scrollToSec('gallery')">Gallery</button>
-            <button onclick="scrollToSec('videos')">Videos</button>
-            <button onclick="scrollToSec('events')">Events</button>
+        <nav id="navbar">
+            <button onclick="switchPage('home', this)" class="active-nav">Home</button>
+            <button onclick="switchPage('timeline', this)">Timeline</button>
+            <button onclick="switchPage('fighters', this)">Freedom Fighters</button>
+            <button onclick="switchPage('gallery', this)">Gallery</button>
+            <button onclick="switchPage('videos', this)">Videos</button>
+            <button onclick="switchPage('events', this)">Events</button>
+            <button onclick="switchPage('about', this)">About</button>
             <button onclick="openModal()" style="color: var(--ongole-green); font-weight: 700;"><i class="fa-solid fa-lock"></i> Admin</button>
         </nav>
         <div class="social-header">
@@ -241,45 +263,161 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <span class="hero-badge">1876 – 2026 Sesquicentennial</span>
-        <h1>150 Years of Glorious Ongole</h1>
-        <p>Honoring a century and a half of heritage, culture, resilience, and modern urban transformation.</p>
-        <button class="btn-primary" style="background: var(--ongole-gold); color:#000; font-weight: 700;" onclick="scrollToSec('heritage')">Explore Our History</button>
-    </section>
+    <!-- ================= PAGE 1: HOME ================= -->
+    <div id="page-home" class="page-section active-page">
+        <section class="hero">
+            <span class="hero-badge">1876 – 2026 Sesquicentennial</span>
+            <h1>150 Years of Glorious Ongole</h1>
+            <p>Honoring a century and a half of heritage, culture, resilience, and modern urban transformation.</p>
+            <button class="btn-primary" style="background: var(--ongole-gold); color:#000; font-weight: 700;" onclick="switchPage('timeline', document.querySelectorAll('nav button')[1])">Explore Our History</button>
+        </section>
 
-    <!-- Heritage & Content Section -->
-    <section id="heritage" class="container">
-        <h2 class="section-title">Heritage & Milestones</h2>
-        <p class="section-subtitle">Discover the pillars that make Ongole a timeless cradle of pride and economic strength.</p>
-        
-        <div class="heritage-grid">
-            <div class="heritage-card">
-                <i class="fa-solid fa-landmark-dome"></i>
-                <h3>150 Years Municipal Legacy</h3>
-                <p>Established as a municipality on September 30, 1876, evolving today into a premier Municipal Corporation.</p>
+        <div class="counters-bar">
+            <div class="counter-item">
+                <h2>150</h2>
+                <p>Years of Municipality</p>
             </div>
-            <div class="heritage-card">
-                <i class="fa-solid fa-cow"></i>
-                <h3>World-Famous Ongole Bull</h3>
-                <p>Globally celebrated for rugged strength and disease resistance, standing as the eternal symbol of the region.</p>
+            <div class="counter-item">
+                <h2>1876 - 2026</h2>
+                <p>Sesquicentennial Era</p>
             </div>
-            <div class="heritage-card">
-                <i class="fa-solid fa-monument"></i>
-                <h3>Andhra Kesari Heritage</h3>
-                <p>Proud birthplace and operational ground of freedom fighter Tanguturi Prakasam Pantulu (Andhra Kesari).</p>
-            </div>
-            <div class="heritage-card">
-                <i class="fa-solid fa-dharmachakra"></i>
-                <h3>Ashoka Dharma Chakra</h3>
-                <p>A towering monument at Church Junction representing peace, governance values, and historical milestones.</p>
+            <div class="counter-item">
+                <h2>2022</h2>
+                <p>Municipal Corporation</p>
             </div>
         </div>
-    </section>
 
-    <!-- Day-Wise Gallery & Video Section -->
-    <section id="gallery" style="background: #edf2f7; padding: 60px 0;">
+        <section class="container">
+            <h2 class="section-title">Heritage & Milestones</h2>
+            <p class="section-subtitle">Discover the pillars that make Ongole a timeless cradle of pride and economic strength.</p>
+            
+            <div class="heritage-grid">
+                <div class="heritage-card">
+                    <i class="fa-solid fa-landmark-dome"></i>
+                    <h3>150 Years Municipal Legacy</h3>
+                    <p>Established as a municipality on September 30, 1876, evolving today into a premier Municipal Corporation.</p>
+                </div>
+                <div class="heritage-card">
+                    <i class="fa-solid fa-cow"></i>
+                    <h3>World-Famous Ongole Bull</h3>
+                    <p>Globally celebrated for rugged strength and disease resistance, standing as the eternal symbol of the region.</p>
+                </div>
+                <div class="heritage-card">
+                    <i class="fa-solid fa-monument"></i>
+                    <h3>Andhra Kesari Heritage</h3>
+                    <p>Proud birthplace and operational ground of freedom fighter Tanguturi Prakasam Pantulu (Andhra Kesari).</p>
+                </div>
+                <div class="heritage-card">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                    <h3>Ashoka Dharma Chakra</h3>
+                    <p>A towering monument at Church Junction representing peace, governance values, and historical milestones.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= PAGE 2: TIMELINE ================= -->
+    <div id="page-timeline" class="page-section">
+        <div class="container">
+            <h2 class="section-title">150 Years Historical Timeline</h2>
+            <p class="section-subtitle">Tracing Ongole from ancient historical roots through the formation of Prakasam District to the 2026 Sesquicentennial.</p>
+
+            <div class="timeline-container">
+                <div class="timeline-block timeline-left">
+                    <div class="timeline-content">
+                        <h3>Ancient & Medieval Roots</h3>
+                        <p>Early historical references, followed by periods under Chola, Pallava, Vijayanagara dynasties, and the Zamindari system.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-right">
+                    <div class="timeline-content">
+                        <h3>September 30, 1876</h3>
+                        <p>Ongole Municipality was officially constituted under British rule, laying the foundation for local civic governance.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-left">
+                    <div class="timeline-content">
+                        <h3>1880s – 1900s</h3>
+                        <p>Rapid growth of educational institutions, local churches, and civic infrastructure in the expanding town.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-right">
+                    <div class="timeline-content">
+                        <h3>1920 & 1928</h3>
+                        <p>Active participation in the Non-Cooperation Movement. In 1928, Tanguturi Prakasam led a courageous stand against the Simon Commission.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-left">
+                    <div class="timeline-content">
+                        <h3>1930 & 1942</h3>
+                        <p>Local mobilisation during the Civil Disobedience Movement and the Quit India Movement, leading to India's Independence in 1947.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-right">
+                    <div class="timeline-content">
+                        <h3>February 2, 1970 & 1972</h3>
+                        <p>Ongole District was created by the Government of Andhra Pradesh, later renamed Prakasam District in 1972 to honor Tanguturi Prakasam Panthulu.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-left">
+                    <div class="timeline-content">
+                        <h3>2022 – Municipal Corporation</h3>
+                        <p>Ongole upgraded to a Municipal Corporation status, ushering in modern urban expansion and public welfare programs.</p>
+                    </div>
+                </div>
+                <div class="timeline-block timeline-right">
+                    <div class="timeline-content">
+                        <h3>2026 – 150 Years Celebration</h3>
+                        <p>Commemorating 150 glorious years of civic governance, culture, and progress from 1876 to 2026.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 3: FREEDOM FIGHTERS ================= -->
+    <div id="page-fighters" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Freedom Fighters of Ongole</h2>
+            <p class="section-subtitle">Honoring the courageous leaders who spearheaded the national movement in the Prakasam region.</p>
+
+            <div class="fighters-grid">
+                <div class="fighter-card">
+                    <img src="https://via.placeholder.com/100?text=Prakasam" alt="Tanguturi Prakasam Panthulu">
+                    <h3>Tanguturi Prakasam Panthulu</h3>
+                    <span>"Andhra Kesari"</span>
+                    <p>Celebrated for his unmatched courage against the Simon Commission in 1928, leadership in the Non-Cooperation and Quit India movements, and tenure as Chief Minister of Madras Presidency.</p>
+                </div>
+                <div class="fighter-card">
+                    <img src="https://via.placeholder.com/100?text=Duggirala" alt="Duggirala Gopalakrishnaiah">
+                    <h3>Duggirala Gopalakrishnaiah</h3>
+                    <span>"Andhra Ratna"</span>
+                    <p>Renowned for leading the Chirala-Perala struggle and mobilizing masses with powerful nationalist speeches and patriotic songs.</p>
+                </div>
+                <div class="fighter-card">
+                    <img src="https://via.placeholder.com/100?text=Karavadi" alt="Karavadi Venkateswarlu">
+                    <h3>Karavadi Venkateswarlu</h3>
+                    <span>Freedom Leader</span>
+                    <p>Played a pivotal role in organizing local freedom fighters and establishing robust Congress networks across the Ongole region.</p>
+                </div>
+                <div class="fighter-card">
+                    <img src="https://via.placeholder.com/100?text=Gullapalli" alt="Gullapalli Adinarayana">
+                    <h3>Gullapalli Adinarayana</h3>
+                    <span>Activist & Reformer</span>
+                    <p>Contributed immensely to social reform and grassroots freedom campaigns in close coordination with provincial leaders.</p>
+                </div>
+                <div class="fighter-card">
+                    <img src="https://via.placeholder.com/100?text=Ravipati" alt="Ravipati Mahananda">
+                    <h3>Ravipati Mahananda</h3>
+                    <span>Local Freedom Fighter</span>
+                    <p>Documented extensively for his active participation in protests, agitations, and resistance against colonial policies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 4: GALLERY ================= -->
+    <div id="page-gallery" class="page-section">
         <div class="container">
             <h2 class="section-title">Day-Wise Media Gallery</h2>
             <p class="section-subtitle">Browse memorable snapshots and media captured across landmark celebration events.</p>
@@ -298,16 +436,15 @@
                 <div class="skeleton"></div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- YouTube Featured Coverage Section -->
-    <section id="videos" class="youtube-section">
+    <!-- ================= PAGE 5: VIDEOS ================= -->
+    <div id="page-videos" class="page-section">
         <div class="container">
             <h2 class="section-title">Official & News Video Coverage</h2>
             <p class="section-subtitle">Watch televised coverages, reports, and feature spotlights showcasing the 150 years sesquicentennial celebration events.</p>
             
             <div class="youtube-grid">
-                <!-- Video 1 -->
                 <div class="youtube-card">
                     <div class="youtube-frame-wrapper">
                         <iframe src="https://www.youtube.com/embed/08S0rWoyHNc" title="Ongole Municipality 150 Years Celebrations - RTV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -318,7 +455,6 @@
                     </div>
                 </div>
 
-                <!-- Video 2 -->
                 <div class="youtube-card">
                     <div class="youtube-frame-wrapper">
                         <iframe src="https://www.youtube.com/embed/3E9kEeDBthk" title="Prabhath News Coverage" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -330,17 +466,33 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Events Section -->
-    <section id="events" class="container">
-        <h2 class="section-title">Anniversary Events & Programs</h2>
-        <p class="section-subtitle">Participate in upcoming cultural showcases, community gatherings, and heritage walks.</p>
+    <!-- ================= PAGE 6: EVENTS ================= -->
+    <div id="page-events" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Anniversary Events & Programs</h2>
+            <p class="section-subtitle">Participate in upcoming cultural showcases, community gatherings, and heritage walks.</p>
 
-        <div id="eventsContainer" class="events-container">
-            <div class="skeleton" style="height: 100px;"></div>
+            <div id="eventsContainer" class="events-container">
+                <div class="skeleton" style="height: 100px;"></div>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- ================= PAGE 7: ABOUT ================= -->
+    <div id="page-about" class="page-section">
+        <div class="container" style="max-width: 800px;">
+            <h2 class="section-title">About Ongole 150 Years Committee</h2>
+            <p class="section-subtitle">Dedicated to preserving and celebrating the rich history of Ongole Municipal Corporation.</p>
+            
+            <div style="background: white; padding: 35px; border-radius: 16px; box-shadow: var(--shadow-sm); line-height: 1.8;">
+                <p style="margin-bottom: 15px;">The Ongole 150 Years Sesquicentennial Celebrations committee brings together historians, civic leaders, and citizens to commemorate 150 years of municipal governance from 1876 to 2026.</p>
+                <p style="margin-bottom: 15px;">From its ancient historical roots and glorious freedom struggle milestones led by Andhra Kesari Tanguturi Prakasam, to its current status as a thriving Municipal Corporation, Ongole continues to stand as a beacon of cultural pride, economic strength, and agricultural legacy symbolized by the world-famous Ongole Bull.</p>
+                <p>This digital portal serves as a permanent archive, timeline guide, and interactive gallery for citizens worldwide.</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
@@ -379,8 +531,15 @@
             fetchEvents();
         });
 
-        function scrollToSec(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        // Multi-page navigation switch
+        function switchPage(pageId, btn) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active-page'));
+            document.getElementById('page-' + pageId).classList.add('active-page');
+
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
+            if (btn) btn.classList.add('active-nav');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function openModal() { document.getElementById("loginModal").style.display = "block"; }
@@ -397,7 +556,7 @@
                 document.getElementById("adminDashboard").style.display = "block";
                 userField.value = "";
                 passField.value = "";
-                scrollToSec('adminDashboard');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 errorMsg.style.display = "block";
             }
@@ -405,7 +564,7 @@
 
         function logout() {
             document.getElementById("adminDashboard").style.display = "none";
-            scrollToSec('home');
+            switchPage('home', document.querySelectorAll('nav button')[0]);
         }
 
         async function fetchImages() {
