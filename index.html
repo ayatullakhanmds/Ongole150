@@ -478,7 +478,7 @@
             const userCaptchaInput = parseInt(document.getElementById('captchaInput').value, 10);
 
             // Verify Captcha First
-            if (userCaptchaInput !== expectedCaptchaAnswer) {
+            if (isNaN(userCaptchaInput) || userCaptchaInput !== expectedCaptchaAnswer) {
                 alert('Incorrect Captcha answer. Please try again.');
                 generateCaptcha();
                 return;
