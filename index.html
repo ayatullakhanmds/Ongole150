@@ -6,6 +6,8 @@
     <title>Ongole 150 Years Sesquicentennial Celebrations (1876 - 2026)</title>
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Plyr CSS for Custom MP4 Video Player -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         :root {
             --ongole-green: #0b4221;
@@ -40,15 +42,15 @@
         .logo-text h1 { font-size: 1.35rem; color: var(--ongole-green); font-weight: 800; line-height: 1.1; letter-spacing: 0.5px; }
         .logo-text span { font-size: 0.82rem; color: var(--ongole-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
 
-        nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         nav button {
-            background: none; border: none; font-size: 14px; font-weight: 600;
+            background: none; border: none; font-size: 13.5px; font-weight: 600;
             color: var(--dark-text); cursor: pointer; transition: var(--transition);
-            padding: 8px 14px; border-radius: 6px;
+            padding: 8px 12px; border-radius: 6px;
         }
         nav button:hover, nav button.active-nav { color: var(--ongole-green); background: #f0fdf4; }
 
-        .social-header { display: flex; gap: 12px; margin-left: 15px; border-left: 1px solid #e2e8f0; padding-left: 15px; }
+        .social-header { display: flex; gap: 12px; margin-left: 10px; border-left: 1px solid #e2e8f0; padding-left: 12px; }
         .social-icon { color: var(--ongole-green); font-size: 1rem; transition: var(--transition); }
         .social-icon:hover { color: var(--ongole-gold); transform: translateY(-2px); }
 
@@ -57,31 +59,55 @@
         .page-section.active-page { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Hero Banner */
+        /* Hero Banner & Countdown */
         .hero {
             position: relative;
             background: linear-gradient(135deg, rgba(11,66,33,0.92) 0%, rgba(18,104,52,0.85) 100%), 
                         url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10') center/cover no-repeat;
-            color: white; text-align: center; padding: 120px 20px;
+            color: white; text-align: center; padding: 90px 20px 60px;
         }
         .hero-badge {
             background: var(--ongole-gold); color: #000; font-weight: 700;
             padding: 6px 18px; border-radius: 30px; font-size: 0.8rem;
-            display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;
+            display: inline-block; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;
             box-shadow: 0 4px 12px rgba(197, 160, 40, 0.4);
         }
-        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-        .hero p { font-size: 1.15rem; max-width: 680px; margin: 0 auto 30px; opacity: 0.95; font-weight: 300; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        .hero p { font-size: 1.1rem; max-width: 680px; margin: 0 auto 30px; opacity: 0.95; font-weight: 300; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+        /* Countdown Timer Component */
+        .countdown-container { display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .countdown-box { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 20px; min-width: 90px; text-align: center; }
+        .countdown-box span { font-size: 1.8rem; font-weight: 800; color: var(--ongole-gold); display: block; line-height: 1.1; }
+        .countdown-box p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; opacity: 0.9; }
+
+        /* Scrolling Marquee Images */
+        .scrolling-banner { background: var(--ongole-green); padding: 20px 0; overflow: hidden; white-space: nowrap; position: relative; box-shadow: inset 0 4px 6px rgba(0,0,0,0.2); }
+        .scrolling-track { display: inline-block; animation: scrollMarquee 30s linear infinite; }
+        .scrolling-track img { height: 140px; width: 220px; object-fit: cover; border-radius: 8px; margin-right: 15px; border: 2px solid var(--ongole-gold); box-shadow: var(--shadow-sm); }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* Counters Bar */
-        .counters-bar { background: var(--ongole-green); color: white; padding: 30px 20px; display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; text-align: center; }
-        .counter-item h2 { font-size: 2.2rem; color: var(--ongole-gold); font-weight: 800; }
-        .counter-item p { font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9; }
+        .counters-bar { background: #072613; color: white; padding: 25px 20px; display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; text-align: center; border-bottom: 3px solid var(--ongole-gold); }
+        .counter-item h2 { font-size: 2rem; color: var(--ongole-gold); font-weight: 800; }
+        .counter-item p { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9; }
 
         /* Section Global */
         .section-title { text-align: center; color: var(--ongole-green); font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
         .section-subtitle { text-align: center; color: #64748b; margin-bottom: 40px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+
+        /* Heritage Cards */
+        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .heritage-card {
+            background: white; border-radius: 16px; padding: 30px 24px;
+            box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9;
+            border-top: 5px solid var(--ongole-gold); transition: var(--transition);
+        }
+        .heritage-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+        .heritage-card i { font-size: 2.2rem; color: var(--ongole-green); margin-bottom: 20px; }
+        .heritage-card h3 { color: var(--ongole-green); margin-bottom: 10px; font-size: 1.25rem; font-weight: 700; }
+        .heritage-card p { color: #64748b; font-size: 0.95rem; }
 
         /* Timeline Styles */
         .timeline-container { position: relative; max-width: 900px; margin: 0 auto; padding: 20px 0; }
@@ -101,21 +127,8 @@
         .fighter-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
         .fighter-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid var(--ongole-gold); }
         .fighter-card h3 { color: var(--ongole-green); margin-bottom: 5px; font-size: 1.2rem; }
-        .fighter-card span { font-size: 0.8rem; color: var(--ongole-gold-dark, #b89128); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        .fighter-card span { font-size: 0.8rem; color: var(--ongole-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
         .fighter-card p { font-size: 0.9rem; color: #64748b; }
-
-        /* Heritage Cards */
-        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-        .heritage-card {
-            background: white; border-radius: 16px; padding: 30px 24px;
-            box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9;
-            border-top: 5px solid var(--ongole-gold);
-            transition: var(--transition);
-        }
-        .heritage-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-        .heritage-card i { font-size: 2.2rem; color: var(--ongole-green); margin-bottom: 20px; }
-        .heritage-card h3 { color: var(--ongole-green); margin-bottom: 10px; font-size: 1.25rem; font-weight: 700; }
-        .heritage-card p { color: #64748b; font-size: 0.95rem; }
 
         /* Gallery & Filters */
         .filter-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
@@ -127,58 +140,42 @@
         .filter-btn.active, .filter-btn:hover { background: var(--ongole-green); border-color: var(--ongole-green); color: white; transform: translateY(-1px); }
 
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .gallery-card {
-            background: white; border-radius: 12px; overflow: hidden;
-            box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9; transition: var(--transition); position: relative;
-        }
+        .gallery-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9; transition: var(--transition); position: relative; }
         .gallery-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
         .gallery-media { width: 100%; height: 220px; object-fit: cover; display: block; background: #e2e8f0; }
-        .media-tag {
-            position: absolute; top: 12px; left: 12px; background: rgba(11, 66, 33, 0.85);
-            backdrop-filter: blur(4px); color: white; padding: 5px 12px; font-size: 0.75rem; border-radius: 20px; font-weight: 600;
-            z-index: 2; letter-spacing: 0.5px;
-        }
+        .media-tag { position: absolute; top: 12px; left: 12px; background: rgba(11, 66, 33, 0.85); backdrop-filter: blur(4px); color: white; padding: 5px 12px; font-size: 0.75rem; border-radius: 20px; font-weight: 600; z-index: 2; letter-spacing: 0.5px; }
         .gallery-info { padding: 16px; }
-        .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gallery-info h4 { font-size: 0.95rem; color: var(--dark-text); margin-bottom: 4px; font-weight: 600; }
         .gallery-info span { font-size: 0.8rem; color: #94a3b8; }
 
-        /* YouTube Videos Section */
-        .youtube-section { background: #f1f5f9; padding: 60px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+        /* Videos Section with Plyr Custom Player Integration */
         .youtube-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .youtube-card {
-            background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm);
-            border: 1px solid #e2e8f0; transition: var(--transition); display: flex; flex-direction: column;
-        }
+        .youtube-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid #e2e8f0; transition: var(--transition); display: flex; flex-direction: column; }
         .youtube-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .youtube-frame-wrapper { position: relative; width: 100%; height: 200px; background: #000; }
-        .youtube-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .player-container { position: relative; width: 100%; background: #000; }
         .youtube-info { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
         .youtube-info h4 { font-size: 1rem; color: var(--dark-text); font-weight: 700; line-height: 1.4; }
         .youtube-info span { font-size: 0.8rem; color: var(--ongole-green); font-weight: 600; }
 
+        /* Calendar Archive Styles */
+        .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .calendar-card { background: white; border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm); border-left: 5px solid var(--ongole-green); display: flex; gap: 20px; align-items: center; }
+        .calendar-date-box { background: #f0fdf4; color: var(--ongole-green); padding: 12px 16px; border-radius: 10px; text-align: center; border: 1px solid #dcfce7; min-width: 85px; }
+        .calendar-date-box span { font-size: 1.4rem; font-weight: 800; display: block; line-height: 1; }
+        .calendar-date-box small { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
+
         /* Events Section */
         .events-container { display: flex; flex-direction: column; gap: 16px; max-width: 850px; margin: 0 auto; }
-        .event-card {
-            background: white; padding: 24px; border-left: 6px solid var(--ongole-gold);
-            border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9;
-            display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;
-            transition: var(--transition);
-        }
+        .event-card { background: white; padding: 24px; border-left: 6px solid var(--ongole-gold); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; transition: var(--transition); }
         .event-card:hover { transform: translateX(4px); box-shadow: var(--shadow-lg); }
-        .event-date-badge {
-            background: #f0fdf4; color: var(--ongole-green); font-weight: 700;
-            padding: 12px 18px; border-radius: 10px; text-align: center; min-width: 100px;
-            border: 1px solid #dcfce7;
-        }
+        .event-date-badge { background: #f0fdf4; color: var(--ongole-green); font-weight: 700; padding: 12px 18px; border-radius: 10px; text-align: center; min-width: 100px; border: 1px solid #dcfce7; }
 
         /* Admin Control Panel */
         #adminDashboard { display: none; background: #fffbe6; padding: 40px 20px; border-bottom: 4px solid var(--ongole-gold); }
         .admin-flex { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; max-width: 1000px; margin: 0 auto; }
         .admin-box { background: white; padding: 25px; border-radius: 16px; box-shadow: var(--shadow-sm); flex: 1; min-width: 320px; border: 1px solid #fef3c7; }
         .admin-box h3 { color: var(--ongole-green); margin-bottom: 18px; font-size: 1.15rem; }
-        .admin-box input, .admin-box select, .admin-box textarea {
-            width: 100%; padding: 12px; margin-bottom: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; transition: var(--transition);
-        }
+        .admin-box input, .admin-box select, .admin-box textarea { width: 100%; padding: 12px; margin-bottom: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; transition: var(--transition); }
 
         /* Buttons & Modal */
         .btn-primary { background: var(--ongole-green); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 12px rgba(11, 66, 33, 0.2); }
@@ -222,6 +219,7 @@
             <button onclick="switchPage('fighters', this)">Freedom Fighters</button>
             <button onclick="switchPage('gallery', this)">Gallery</button>
             <button onclick="switchPage('videos', this)">Videos</button>
+            <button onclick="switchPage('calendar', this)">Calendar Archive</button>
             <button onclick="switchPage('events', this)">Events</button>
             <button onclick="switchPage('about', this)">About</button>
             <button onclick="openModal()" style="color: var(--ongole-green); font-weight: 700;"><i class="fa-solid fa-lock"></i> Admin</button>
@@ -238,8 +236,8 @@
         <h2 style="text-align: center; color: var(--ongole-green); margin-bottom: 25px;">Sesquicentennial Admin Dashboard</h2>
         <div class="admin-flex">
             <div class="admin-box">
-                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Upload Media (Photo/Video)</h3>
-                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Upload Media (Photo/Video MP4)</h3>
+                <input type="file" id="fileInput" accept="image/*,video/mp4" multiple>
                 <select id="uploadDayTag">
                     <option value="Day 1">Day 1 Celebrations</option>
                     <option value="Day 2">Day 2 Celebrations</option>
@@ -269,8 +267,32 @@
             <span class="hero-badge">1876 – 2026 Sesquicentennial</span>
             <h1>150 Years of Glorious Ongole</h1>
             <p>Honoring a century and a half of heritage, culture, resilience, and modern urban transformation.</p>
-            <button class="btn-primary" style="background: var(--ongole-gold); color:#000; font-weight: 700;" onclick="switchPage('timeline', document.querySelectorAll('nav button')[1])">Explore Our History</button>
+            
+            <!-- Live Countdown Timer to Sep 30, 2026 -->
+            <div class="countdown-container" id="countdownTimer">
+                <div class="countdown-box"><span id="days">00</span><p>Days</p></div>
+                <div class="countdown-box"><span id="hours">00</span><p>Hours</p></div>
+                <div class="countdown-box"><span id="minutes">00</span><p>Mins</p></div>
+                <div class="countdown-box"><span id="seconds">00</span><p>Secs</p></div>
+            </div>
         </section>
+
+        <!-- Scrolling Image Marquee Banner -->
+        <div class="scrolling-banner">
+            <div class="scrolling-track">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10" alt="Ongole View">
+                <img src="https://via.placeholder.com/220x140?text=Heritage+1" alt="Heritage">
+                <img src="https://via.placeholder.com/220x140?text=Cattle+Show" alt="Cattle">
+                <img src="https://via.placeholder.com/220x140?text=Cultural+Fest" alt="Fest">
+                <img src="https://via.placeholder.com/220x140?text=Andhra+Kesari" alt="Statue">
+                <!-- Duplicate set for seamless infinite loop -->
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10" alt="Ongole View">
+                <img src="https://via.placeholder.com/220x140?text=Heritage+1" alt="Heritage">
+                <img src="https://via.placeholder.com/220x140?text=Cattle+Show" alt="Cattle">
+                <img src="https://via.placeholder.com/220x140?text=Cultural+Fest" alt="Fest">
+                <img src="https://via.placeholder.com/220x140?text=Andhra+Kesari" alt="Statue">
+            </div>
+        </div>
 
         <div class="counters-bar">
             <div class="counter-item">
@@ -308,9 +330,9 @@
                     <p>Proud birthplace and operational ground of freedom fighter Tanguturi Prakasam Pantulu (Andhra Kesari).</p>
                 </div>
                 <div class="heritage-card">
-                    <i class="fa-solid fa-dharmachakra"></i>
-                    <h3>Ashoka Dharma Chakra</h3>
-                    <p>A towering monument at Church Junction representing peace, governance values, and historical milestones.</p>
+                    <i class="fa-solid fa-city"></i>
+                    <h3>Modern Infrastructure</h3>
+                    <p>Rapidly advancing civic developments, educational hubs, and cultural growth leading into its sesquicentennial year.</p>
                 </div>
             </div>
         </section>
@@ -318,456 +340,416 @@
 
     <!-- ================= PAGE 2: TIMELINE ================= -->
     <div id="page-timeline" class="page-section">
-        <div class="container">
-            <h2 class="section-title">150 Years Historical Timeline</h2>
-            <p class="section-subtitle">Tracing Ongole from ancient historical roots through the formation of Prakasam District to the 2026 Sesquicentennial.</p>
-
+        <section class="container">
+            <h2 class="section-title">Historical Timeline (1876 - 2026)</h2>
+            <p class="section-subtitle">Key chapters tracking the evolution of Ongole over 150 years.</p>
             <div class="timeline-container">
                 <div class="timeline-block timeline-left">
                     <div class="timeline-content">
-                        <h3>Ancient & Medieval Roots</h3>
-                        <p>Early historical references, followed by periods under Chola, Pallava, Vijayanagara dynasties, and the Zamindari system.</p>
-                    </div>
-                </div>
-                <div class="timeline-block timeline-right">
-                    <div class="timeline-content">
                         <h3>September 30, 1876</h3>
-                        <p>Ongole Municipality was officially constituted under British rule, laying the foundation for local civic governance.</p>
-                    </div>
-                </div>
-                <div class="timeline-block timeline-left">
-                    <div class="timeline-content">
-                        <h3>1880s – 1900s</h3>
-                        <p>Rapid growth of educational institutions, local churches, and civic infrastructure in the expanding town.</p>
+                        <p>Official establishment of Ongole Municipality under British administration, setting up localized municipal governance.</p>
                     </div>
                 </div>
                 <div class="timeline-block timeline-right">
                     <div class="timeline-content">
-                        <h3>1920 & 1928</h3>
-                        <p>Active participation in the Non-Cooperation Movement. In 1928, Tanguturi Prakasam led a courageous stand against the Simon Commission.</p>
+                        <h3>1921 - Freedom Movement</h3>
+                        <p>Active participation in the Non-Cooperation movement under the charismatic leadership of Tanguturi Prakasam Pantulu.</p>
                     </div>
                 </div>
                 <div class="timeline-block timeline-left">
                     <div class="timeline-content">
-                        <h3>1930 & 1942</h3>
-                        <p>Local mobilisation during the Civil Disobedience Movement and the Quit India Movement, leading to India's Independence in 1947.</p>
+                        <h3>1970 - District Headquarters</h3>
+                        <p>Ongole becomes the headquarters of the newly formed Prakasam District, accelerating regional administrative importance.</p>
                     </div>
                 </div>
                 <div class="timeline-block timeline-right">
                     <div class="timeline-content">
-                        <h3>February 2, 1970 & 1972</h3>
-                        <p>Ongole District was created by the Government of Andhra Pradesh, later renamed Prakasam District in 1972 to honor Tanguturi Prakasam Panthulu.</p>
+                        <h3>2022 - Municipal Corporation</h3>
+                        <p>Upgraded officially to a Municipal Corporation status, ushering in modern urban planning and expansions.</p>
                     </div>
                 </div>
                 <div class="timeline-block timeline-left">
                     <div class="timeline-content">
-                        <h3>2022 – Municipal Corporation</h3>
-                        <p>Ongole upgraded to a Municipal Corporation status, ushering in modern urban expansion and public welfare programs.</p>
-                    </div>
-                </div>
-                <div class="timeline-block timeline-right">
-                    <div class="timeline-content">
-                        <h3>2026 – 150 Years Celebration</h3>
-                        <p>Commemorating 150 glorious years of civic governance, culture, and progress from 1876 to 2026.</p>
+                        <h3>2026 - Sesquicentennial Milestone</h3>
+                        <p>Grand celebrations marking 150 glorious years of municipal legacy, heritage protection, and community achievements.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- ================= PAGE 3: FREEDOM FIGHTERS ================= -->
     <div id="page-fighters" class="page-section">
-        <div class="container">
-            <h2 class="section-title">Freedom Fighters of Ongole</h2>
-            <p class="section-subtitle">Honoring the courageous leaders who spearheaded the national movement in the Prakasam region.</p>
-
+        <section class="container">
+            <h2 class="section-title">Tribute to Freedom Fighters</h2>
+            <p class="section-subtitle">Honoring the brave heroes from Ongole who shaped India's independence struggle.</p>
             <div class="fighters-grid">
                 <div class="fighter-card">
-                    <img src="https://via.placeholder.com/100?text=Prakasam" alt="Tanguturi Prakasam Panthulu">
-                    <h3>Tanguturi Prakasam Panthulu</h3>
-                    <span>"Andhra Kesari"</span>
-                    <p>Celebrated for his unmatched courage against the Simon Commission in 1928, leadership in the Non-Cooperation and Quit India movements, and tenure as Chief Minister of Madras Presidency.</p>
+                    <img src="https://via.placeholder.com/100?text=Prakasam" alt="Tanguturi Prakasam">
+                    <h3>Tanguturi Prakasam Pantulu</h3>
+                    <span>Andhra Kesari (1872 – 1957)</span>
+                    <p>Famed for defying police bayonets during the Simon Commission protest in Madras, earning the title "Lion of Andhra".</p>
                 </div>
                 <div class="fighter-card">
-                    <img src="https://via.placeholder.com/100?text=Duggirala" alt="Duggirala Gopalakrishnaiah">
-                    <h3>Duggirala Gopalakrishnaiah</h3>
-                    <span>"Andhra Ratna"</span>
-                    <p>Renowned for leading the Chirala-Perala struggle and mobilizing masses with powerful nationalist speeches and patriotic songs.</p>
+                    <img src="https://via.placeholder.com/100?text=Hero" alt="Local Leader">
+                    <h3>Karnam Subba Rao</h3>
+                    <span>Freedom Vanguard</span>
+                    <p>Instrumental in organizing local satyagrahas, mobilizing rural communities, and driving the freedom movement in the region.</p>
                 </div>
                 <div class="fighter-card">
-                    <img src="https://via.placeholder.com/100?text=Karavadi" alt="Karavadi Venkateswarlu">
-                    <h3>Karavadi Venkateswarlu</h3>
-                    <span>Freedom Leader</span>
-                    <p>Played a pivotal role in organizing local freedom fighters and establishing robust Congress networks across the Ongole region.</p>
-                </div>
-                <div class="fighter-card">
-                    <img src="https://via.placeholder.com/100?text=Gullapalli" alt="Gullapalli Adinarayana">
-                    <h3>Gullapalli Adinarayana</h3>
-                    <span>Activist & Reformer</span>
-                    <p>Contributed immensely to social reform and grassroots freedom campaigns in close coordination with provincial leaders.</p>
-                </div>
-                <div class="fighter-card">
-                    <img src="https://via.placeholder.com/100?text=Ravipati" alt="Ravipati Mahananda">
-                    <h3>Ravipati Mahananda</h3>
-                    <span>Local Freedom Fighter</span>
-                    <p>Documented extensively for his active participation in protests, agitations, and resistance against colonial policies.</p>
+                    <img src="https://via.placeholder.com/100?text=Hero" alt="Freedom Fighter">
+                    <h3>Bhavanam Venkata Ramaiah</h3>
+                    <span>National Movement Contributor</span>
+                    <p>Active participant in youth resistance movements and early educational reforms in Ongole.</p>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- ================= PAGE 4: GALLERY ================= -->
     <div id="page-gallery" class="page-section">
-        <div class="container">
-            <h2 class="section-title">Day-Wise Media Gallery</h2>
-            <p class="section-subtitle">Browse memorable snapshots and media captured across landmark celebration events.</p>
-
+        <section class="container">
+            <h2 class="section-title">Sesquicentennial Gallery</h2>
+            <p class="section-subtitle">Visual highlights of celebrations, heritage landmarks, and historic moments.</p>
+            
             <div class="filter-container">
                 <button class="filter-btn active" onclick="filterGallery('all', this)">All Media</button>
                 <button class="filter-btn" onclick="filterGallery('Day 1', this)">Day 1</button>
                 <button class="filter-btn" onclick="filterGallery('Day 2', this)">Day 2</button>
-                <button class="filter-btn" onclick="filterGallery('Day 3', this)">Day 3</button>
-                <button class="filter-btn" onclick="filterGallery('Historical Archive', this)">Archives</button>
+                <button class="filter-btn" onclick="filterGallery('Historical Archive', this)">Historical Archive</button>
             </div>
 
-            <div class="gallery-grid" id="galleryContainer">
-                <div class="skeleton"></div>
-                <div class="skeleton"></div>
-                <div class="skeleton"></div>
+            <div class="gallery-grid" id="dynamicGallery">
+                <div class="gallery-card" data-category="Historical Archive">
+                    <span class="media-tag">Archive</span>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10" class="gallery-media" alt="Archive 1">
+                    <div class="gallery-info">
+                        <h4>Old Ongole Town Hall View</h4>
+                        <span>Captured circa 1900s</span>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="Day 1">
+                    <span class="media-tag">Day 1</span>
+                    <img src="https://via.placeholder.com/280x220?text=Inauguration" class="gallery-media" alt="Inauguration">
+                    <div class="gallery-info">
+                        <h4>Sesquicentennial Inaugural Lamp Lighting</h4>
+                        <span>September 30, 2026</span>
+                    </div>
+                </div>
+                <div class="gallery-card" data-category="Day 2">
+                    <span class="media-tag">Day 2</span>
+                    <img src="https://via.placeholder.com/280x220?text=Cultural+Event" class="gallery-media" alt="Cultural Event">
+                    <div class="gallery-info">
+                        <h4>Traditional Folk Arts Performance</h4>
+                        <span>October 1, 2026</span>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- ================= PAGE 5: VIDEOS ================= -->
+    <!-- ================= PAGE 5: VIDEOS (PLYR INTEGRATION) ================= -->
     <div id="page-videos" class="page-section">
-        <div class="container">
-            <h2 class="section-title">Official & News Video Coverage</h2>
-            <p class="section-subtitle">Watch televised coverages, reports, and feature spotlights showcasing the 150 years sesquicentennial celebration events.</p>
+        <section class="container">
+            <h2 class="section-title">Video Documentaries & MP4 Player</h2>
+            <p class="section-subtitle">Watch curated stories on Ongole's history using our responsive custom video player plugin.</p>
             
             <div class="youtube-grid">
+                <!-- Sample MP4 Video Card with Plyr Plugin -->
                 <div class="youtube-card">
-                    <div class="youtube-frame-wrapper">
-                        <iframe src="https://www.youtube.com/embed/08S0rWoyHNc" title="Ongole Municipality 150 Years Celebrations - RTV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="player-container">
+                        <video playsinline controls data-poster="https://via.placeholder.com/320x180?text=Ongole+Anthem">
+                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                     <div class="youtube-info">
-                        <span>RTV Ongole</span>
-                        <h4>చరిత్రను చాటే ఒంగోలు 150 ఏళ్ల వేడుక | Ongole Municipality 150 Years Celebrations</h4>
-                    </div>
-                </div>
-
-                <div class="youtube-card">
-                    <div class="youtube-frame-wrapper">
-                        <iframe src="https://www.youtube.com/embed/3E9kEeDBthk" title="Prabhath News Coverage" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="youtube-info">
-                        <span>PRABHATH NEWS</span>
-                        <h4>ఘనచరితను గర్హిస్తూ.. అభివృద్ధిని ఆకాంక్షిస్తూ.. ఒంగోలు 150 వేడుకలు</h4>
+                        <h4>Sesquicentennial Official Preview & Theme</h4>
+                        <span>Ongole Municipal Corporation</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- ================= PAGE 6: EVENTS ================= -->
-    <div id="page-events" class="page-section">
-        <div class="container">
-            <h2 class="section-title">Anniversary Events & Programs</h2>
-            <p class="section-subtitle">Participate in upcoming cultural showcases, community gatherings, and heritage walks.</p>
-
-            <div id="eventsContainer" class="events-container">
-                <div class="skeleton" style="height: 100px;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PAGE 7: ABOUT ================= -->
-    <div id="page-about" class="page-section">
-        <div class="container" style="max-width: 800px;">
-            <h2 class="section-title">About Ongole 150 Years Committee</h2>
-            <p class="section-subtitle">Dedicated to preserving and celebrating the rich history of Ongole Municipal Corporation.</p>
+    <!-- ================= PAGE 6: CALENDAR ARCHIVE ================= -->
+    <div id="page-calendar" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Calendar Archive & Milestones</h2>
+            <p class="section-subtitle">Chronological record of scheduled commemorative events and meetings.</p>
             
-            <div style="background: white; padding: 35px; border-radius: 16px; box-shadow: var(--shadow-sm); line-height: 1.8;">
-                <p style="margin-bottom: 15px;">The Ongole 150 Years Sesquicentennial Celebrations committee brings together historians, civic leaders, and citizens to commemorate 150 years of municipal governance from 1876 to 2026.</p>
-                <p style="margin-bottom: 15px;">From its ancient historical roots and glorious freedom struggle milestones led by Andhra Kesari Tanguturi Prakasam, to its current status as a thriving Municipal Corporation, Ongole continues to stand as a beacon of cultural pride, economic strength, and agricultural legacy symbolized by the world-famous Ongole Bull.</p>
-                <p>This digital portal serves as a permanent archive, timeline guide, and interactive gallery for citizens worldwide.</p>
+            <div class="calendar-grid">
+                <div class="calendar-card">
+                    <div class="calendar-date-box">
+                        <span>30</span>
+                        <small>Sep 2026</small>
+                    </div>
+                    <div>
+                        <h3 style="color:var(--ongole-green); font-size:1.1rem; margin-bottom:4px;">150th Municipal Foundation Day</h3>
+                        <p style="font-size:0.85rem; color:#64748b;">Grand inauguration of the Sesquicentennial celebrations, flag hoisting, and heritage exhibitions.</p>
+                    </div>
+                </div>
+
+                <div class="calendar-card">
+                    <div class="calendar-date-box">
+                        <span>15</span>
+                        <small>Oct 2026</small>
+                    </div>
+                    <div>
+                        <h3 style="color:var(--ongole-green); font-size:1.1rem; margin-bottom:4px;">Andhra Kesari Tribute Meet</h3>
+                        <p style="font-size:0.85rem; color:#64748b;">Special seminar and youth essay competition honoring Tanguturi Prakasam Pantulu.</p>
+                    </div>
+                </div>
+
+                <div class="calendar-card">
+                    <div class="calendar-date-box">
+                        <span>05</span>
+                        <small>Nov 2026</small>
+                    </div>
+                    <div>
+                        <h3 style="color:var(--ongole-green); font-size:1.1rem; margin-bottom:4px;">Ongole Cattle & Livestock Expo</h3>
+                        <p style="font-size:0.85rem; color:#64748b;">Exhibition showcasing the world-renowned Ongole breed cattle and agricultural innovations.</p>
+                    </div>
+                </div>
+
+                <div class="calendar-card">
+                    <div class="calendar-date-box">
+                        <span>20</span>
+                        <small>Dec 2026</small>
+                    </div>
+                    <div>
+                        <h3 style="color:var(--ongole-green); font-size:1.1rem; margin-bottom:4px;">Civic Awards & Cultural Finale</h3>
+                        <p style="font-size:0.85rem; color:#64748b;">Recognizing prominent citizens, artists, and community leaders who contributed to Ongole's growth.</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
+    <!-- ================= PAGE 7: EVENTS ================= -->
+    <div id="page-events" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Anniversary Events Schedule</h2>
+            <p class="section-subtitle">Stay updated with upcoming programs, public meetings, and cultural fests.</p>
+            <div class="events-container" id="eventsList">
+                <div class="event-card">
+                    <div>
+                        <h3 style="color: var(--ongole-green); font-size: 1.2rem; margin-bottom: 6px;">Sesquicentennial Grand Opening</h3>
+                        <p style="color: #64748b; font-size: 0.95rem;">Official commencement ceremony with civic dignitaries, historical photo displays, and cultural performances at the Town Hall grounds.</p>
+                    </div>
+                    <div class="event-date-badge">
+                        <span>Sep 30</span>
+                        <small>2026</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= PAGE 8: ABOUT ================= -->
+    <div id="page-about" class="page-section">
+        <section class="container" style="max-width: 800px;">
+            <h2 class="section-title">About the Sesquicentennial</h2>
+            <p class="section-subtitle">Honoring 150 years of collective progress and cultural pride.</p>
+            <div style="background: white; padding: 35px; border-radius: 16px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--ongole-green);">
+                <p style="margin-bottom: 16px; color: #475569;">The **Ongole 150 Years Sesquicentennial Celebrations** commemorate the official establishment of the municipality dating back to September 30, 1876. Over the past century and a half, Ongole has grown from a historic trading hub into a thriving municipal corporation in Andhra Pradesh.</p>
+                <p style="margin-bottom: 16px; color: #475569;">This digital portal serves as an interactive archive, recording our rich history, honoring our freedom fighters like Andhra Kesari, celebrating our world-famous cattle, and keeping citizens connected with ongoing anniversary events.</p>
+                <p style="color: #475569; font-weight: 600;">Managed under the auspices of the Ongole Municipal Corporation.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="modal">
         <div class="modal-content">
-            <h3 style="color: var(--ongole-green); margin-bottom: 20px;">Admin Authentication</h3>
-            <input type="text" id="username" placeholder="Username" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 8px;">
-            <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 12px; margin-bottom: 18px; border: 1px solid #cbd5e1; border-radius: 8px;">
-            <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="login()">Sign In</button>
-            <p id="loginError" style="color: #ef4444; display: none; font-size: 13px; margin-top: 8px; font-weight: 600;">Invalid Credentials</p>
-            <button style="background: none; border: none; color: #64748b; margin-top: 10px; cursor: pointer; font-size: 0.9rem;" onclick="closeModal()">Cancel</button>
+            <h3 style="color: var(--ongole-green); margin-bottom: 15px;">Admin Authentication</h3>
+            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter the passcode to access upload and publishing tools.</p>
+            <input type="password" id="adminPassword" placeholder="Passcode (Default: admin123)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
+            <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="verifyAdmin()">Login</button>
+            <button onclick="closeModal()" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.85rem;">Cancel</button>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <h3>Ongole Municipal Corporation</h3>
-        <p style="opacity: 0.8; font-size: 0.95rem;">150 Years of Governance, Heritage & Progress (1876 - 2026)</p>
-        
+        <p>&copy; 2026 Ongole Municipal Corporation. 150 Years Sesquicentennial Celebrations (1876 - 2026).</p>
         <div class="footer-socials">
             <a href="https://www.facebook.com/OngoleMunicipalCorporation/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
             <a href="https://www.instagram.com/ongole_municipal_corporation/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://whatsapp.com" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
-        
-        <p style="font-size: 0.85rem; opacity: 0.6;">&copy; 2026 Ongole 150 Years Celebration Committee. All rights reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Proudly preserving our heritage and building our future.</p>
     </footer>
 
-    <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw_ErCzv1njDFvhW5yiOi4bZIJghwzMkZuTlyFjn_Tw628hnkuE1usz8tHmOgCJUZVc/exec";
-        let allMediaData = [];
-        let allEventsData = [];
+    <!-- Plyr JS Plugin -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
-        window.addEventListener('DOMContentLoaded', () => {
-            fetchImages();
-            fetchEvents();
+    <!-- JavaScript Controllers -->
+    <script>
+        // Initialize Plyr Video Player on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const players = Plyr.setup('.player-container video', {
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] }
+            });
         });
 
-        // Multi-page navigation switch
-        function switchPage(pageId, btn) {
+        // Page Navigation Controller
+        function switchPage(pageId, btnElement) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active-page'));
             document.getElementById('page-' + pageId).classList.add('active-page');
-
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
-            if (btn) btn.classList.add('active-nav');
-
+            
+            if(btnElement) {
+                document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active-nav'));
+                btnElement.classList.add('active-nav');
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openModal() { document.getElementById("loginModal").style.display = "block"; }
-        function closeModal() { document.getElementById("loginModal").style.display = "none"; }
-        
-        function login() {
-            const userField = document.getElementById("username");
-            const passField = document.getElementById("password");
-            const errorMsg = document.getElementById("loginError");
+        // Live Countdown Timer to September 30, 2026
+        const targetDate = new Date('September 30, 2026 00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
 
-            if (userField.value.trim() === "admin" && passField.value === "ongole150") {
-                errorMsg.style.display = "none";
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Admin Modal Controls
+        function openModal() { document.getElementById('adminModal').style.display = 'block'; }
+        function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+        function verifyAdmin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === 'admin123') {
                 closeModal();
-                document.getElementById("adminDashboard").style.display = "block";
-                userField.value = "";
-                passField.value = "";
+                document.getElementById('adminDashboard').style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                errorMsg.style.display = "block";
+                alert('Incorrect passcode. Try "admin123"');
             }
         }
 
         function logout() {
-            document.getElementById("adminDashboard").style.display = "none";
-            switchPage('home', document.querySelectorAll('nav button')[0]);
+            document.getElementById('adminDashboard').style.display = 'none';
         }
 
-        async function fetchImages() {
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=getImages`);
-                allMediaData = await res.json();
-                renderGallery(allMediaData);
-            } catch (err) {
-                console.error("Gallery loading error:", err);
-                document.getElementById("galleryContainer").innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #64748b;'>Unable to load media content.</p>";
-            }
+        // Gallery Filter
+        function filterGallery(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.gallery-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
-        function renderGallery(items) {
-            const container = document.getElementById("galleryContainer");
-            container.innerHTML = "";
+        // Dynamic Upload Handler (Admin) supporting images and MP4 files with Plyr
+        function uploadFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const dayTag = document.getElementById('uploadDayTag').value;
+            const galleryGrid = document.getElementById('dynamicGallery');
 
-            if (!items || items.length === 0) {
-                container.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #64748b;'>No celebration media uploaded yet.</p>";
+            if(fileInput.files.length === 0) {
+                alert('Please select files to upload.');
                 return;
             }
 
-            items.forEach(item => {
-                const isVideo = item.mimeType && (item.mimeType.includes("video") || item.mimeType.indexOf("video/") === 0) || (item.name && item.name.match(/\.(mp4|webm|mov)$/i));
-                const dayTag = item.day || "Day 1";
-
-                const card = document.createElement("div");
-                card.className = "gallery-card";
-                card.setAttribute("data-day", dayTag);
-
-                if (isVideo) {
+            for(let i=0; i<fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                const fileURL = URL.createObjectURL(file);
+                
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.setAttribute('data-category', dayTag);
+                
+                if(file.type === 'video/mp4') {
                     card.innerHTML = `
-                        <span class="media-tag"><i class="fa-solid fa-video"></i> Video</span>
-                        <video class="gallery-media" controls preload="metadata">
-                            <source src="${item.url}" type="${item.mimeType || 'video/mp4'}">
-                        </video>
+                        <span class="media-tag">${dayTag}</span>
+                        <div class="player-container">
+                            <video playsinline controls>
+                                <source src="${fileURL}" type="video/mp4">
+                            </video>
+                        </div>
                         <div class="gallery-info">
-                            <h4>${item.name}</h4>
-                            <span>${dayTag}</span>
+                            <h4>${file.name}</h4>
+                            <span>Uploaded Video</span>
                         </div>
                     `;
                 } else {
                     card.innerHTML = `
                         <span class="media-tag">${dayTag}</span>
-                        <img src="${item.url}" alt="${item.name}" class="gallery-media" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Ongole+150'">
+                        <img src="${fileURL}" class="gallery-media" alt="Uploaded Media">
                         <div class="gallery-info">
-                            <h4>${item.name}</h4>
-                            <span>Commemoration Archive</span>
+                            <h4>${file.name}</h4>
+                            <span>Recently Uploaded</span>
                         </div>
                     `;
                 }
-                container.appendChild(card);
-            });
-        }
-
-        function filterGallery(filter, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
-
-            const cards = document.querySelectorAll('.gallery-card');
-            cards.forEach(card => {
-                const day = card.getAttribute("data-day");
-                if (filter === 'all') {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = (day === filter) ? "block" : "none";
-                }
-            });
-        }
-
-        async function fetchEvents() {
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=getEvents`);
-                allEventsData = await res.json();
-                renderEvents(allEventsData);
-            } catch (err) {
-                console.error("Events loading error:", err);
-                document.getElementById("eventsContainer").innerHTML = "<p style='text-align: center; color: #64748b;'>Unable to load scheduled events.</p>";
+                galleryGrid.prepend(card);
             }
+
+            // Re-initialize Plyr for any freshly added video cards
+            Plyr.setup('.gallery-card .player-container video');
+
+            document.getElementById('adminStatus').innerText = 'Media uploaded successfully!';
+            setTimeout(() => { document.getElementById('adminStatus').innerText = ''; }, 3000);
+            fileInput.value = '';
         }
 
-        function renderEvents(events) {
-            const container = document.getElementById("eventsContainer");
-            container.innerHTML = "";
+        // Dynamic Event Handler (Admin)
+        function addEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const desc = document.getElementById('eventDesc').value;
+            const eventsList = document.getElementById('eventsList');
 
-            if (!events || events.length === 0) {
-                container.innerHTML = "<p style='text-align: center; color: #64748b;'>No upcoming events listed yet.</p>";
+            if(!title || !date || !desc) {
+                alert('Please fill out all event fields.');
                 return;
             }
 
-            events.forEach(ev => {
-                const card = document.createElement("div");
-                card.className = "event-card";
-                
-                let dateDisplay = ev.date;
-                try {
-                    const d = new Date(ev.date);
-                    if(!isNaN(d)) {
-                        dateDisplay = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                    }
-                } catch(e) {}
+            const eventCard = document.createElement('div');
+            eventCard.className = 'event-card';
+            
+            const dateObj = new Date(date);
+            const monthStr = dateObj.toLocaleString('default', { month: 'short' });
+            const dayNum = dateObj.getDate();
+            const yearNum = dateObj.getFullYear();
 
-                card.innerHTML = `
-                    <div style="display: flex; gap: 20px; align-items: center; width: 100%;">
-                        <div class="event-date-badge">
-                            <i class="fa-solid fa-calendar-days" style="margin-bottom:4px;"></i><br>
-                            <span style="font-size:0.85rem; letter-spacing:0.5px;">${dateDisplay}</span>
-                        </div>
-                        <div style="flex: 1;">
-                            <h3 style="color: var(--ongole-green); margin-bottom: 6px; font-size: 1.15rem;">${ev.title}</h3>
-                            <p style="color: #64748b; font-size: 0.95rem;">${ev.description || ''}</p>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+            eventCard.innerHTML = `
+                <div>
+                    <h3 style="color: var(--ongole-green); font-size: 1.2rem; margin-bottom: 6px;">${title}</h3>
+                    <p style="color: #64748b; font-size: 0.95rem;">${desc}</p>
+                </div>
+                <div class="event-date-badge">
+                    <span>${monthStr} ${dayNum}</span>
+                    <small>${yearNum}</small>
+                </div>
+            `;
+            eventsList.prepend(eventCard);
+            document.getElementById('adminStatus').innerText = 'Event published successfully!';
+            setTimeout(() => { document.getElementById('adminStatus').innerText = ''; }, 3000);
 
-        async function uploadFiles() {
-            const fileInput = document.getElementById("fileInput");
-            const dayTag = document.getElementById("uploadDayTag").value;
-            const statusEl = document.getElementById("adminStatus");
-
-            if (fileInput.files.length === 0) {
-                alert("Please select at least one file to upload.");
-                return;
-            }
-
-            statusEl.innerText = "Uploading files to Drive, please wait...";
-
-            for (let i = 0; i < fileInput.files.length; i++) {
-                const file = fileInput.files[i];
-                const base64Data = await toBase64(file);
-
-                const payload = {
-                    action: "uploadMedia",
-                    fileName: file.name,
-                    mimeType: file.type,
-                    dayTag: dayTag,
-                    fileData: base64Data.split(",")[1]
-                };
-
-                try {
-                    await fetch(GAS_WEB_APP_URL, {
-                        method: "POST",
-                        body: JSON.stringify(payload)
-                    });
-                } catch (err) {
-                    console.error("Upload error:", err);
-                }
-            }
-
-            statusEl.innerText = "Upload completed successfully!";
-            fileInput.value = "";
-            fetchImages();
-            setTimeout(() => { statusEl.innerText = ""; }, 4000);
-        }
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        async function addEvent() {
-            const title = document.getElementById("eventTitle").value;
-            const date = document.getElementById("eventDate").value;
-            const desc = document.getElementById("eventDesc").value;
-            const statusEl = document.getElementById("adminStatus");
-
-            if (!title || !date) {
-                alert("Please fill in both the event title and date.");
-                return;
-            }
-
-            statusEl.innerText = "Publishing event...";
-
-            const payload = {
-                action: "addEvent",
-                title: title,
-                date: date,
-                description: desc
-            };
-
-            try {
-                await fetch(GAS_WEB_APP_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-
-                statusEl.innerText = "Event published successfully!";
-                document.getElementById("eventTitle").value = "";
-                document.getElementById("eventDate").value = "";
-                document.getElementById("eventDesc").value = "";
-                fetchEvents();
-                setTimeout(() => { statusEl.innerText = ""; }, 4000);
-            } catch (err) {
-                statusEl.innerText = "Failed to publish event.";
-                console.error(err);
-            }
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventDesc').value = '';
         }
     </script>
 </body>
