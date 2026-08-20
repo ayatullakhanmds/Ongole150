@@ -74,7 +74,7 @@ nav button:hover, nav button.active-nav { color: var(--ongole-green); background
 .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
 .hero p { font-size: 1.1rem; max-width: 680px; margin: 0 auto 25px; opacity: 0.95; font-weight: 300; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 
-/* Redesigned Attractive Countdown Timer (Solid Background) */
+/* Attractive Countdown Timer (Solid Background) */
 .countdown-wrapper {
     max-width: 650px;
     margin: 25px auto 0 auto;
