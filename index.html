@@ -40,7 +40,7 @@
     </header>
 
     <!-- Admin Panel -->
-    <div id="adminDashboard">
+    <div id="adminDashboard" style="display: none;">
         <h2 style="text-align: center; color: var(--ongole-green); margin-bottom: 25px;">Sesquicentennial Admin Dashboard</h2>
         <div class="admin-flex">
             <div class="admin-box">
@@ -57,9 +57,9 @@
 
             <div class="admin-box">
                 <h3><i class="fa-solid fa-calendar-plus"></i> Post Anniversary Event</h3>
-                <input type="text" id="eventTitle" placeholder="Event Title">
+                <input type="text" id="eventTitle" placeholder="Event Title" maxlength="100">
                 <input type="date" id="eventDate">
-                <textarea id="eventDesc" placeholder="Event Details & Location" rows="3"></textarea>
+                <textarea id="eventDesc" placeholder="Event Details & Location" rows="3" maxlength="500"></textarea>
                 <button class="btn-primary" style="width:100%;" onclick="addEvent()">Publish Event</button>
             </div>
         </div>
@@ -96,7 +96,6 @@
                 <img src="https://via.placeholder.com/280x180?text=Cattle+Show" alt="Cattle">
                 <img src="https://via.placeholder.com/280x180?text=Cultural+Fest" alt="Fest">
                 <img src="https://via.placeholder.com/280x180?text=Andhra+Kesari" alt="Statue">
-                <!-- Duplicate set for seamless infinite loop -->
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCqGxzh3brILh6y28krCrRW684GZjmOSwMSrzp5sd0Rg&s=10" alt="Ongole View">
                 <img src="https://via.placeholder.com/280x180?text=Heritage+1" alt="Heritage">
                 <img src="https://via.placeholder.com/280x180?text=Cattle+Show" alt="Cattle">
@@ -259,14 +258,13 @@
         </section>
     </div>
 
-    <!-- ================= PAGE 5: VIDEOS (PLYR INTEGRATION) ================= -->
+    <!-- ================= PAGE 5: VIDEOS ================= -->
     <div id="page-videos" class="page-section">
         <section class="container">
             <h2 class="section-title">Video Documentaries & MP4 Player</h2>
             <p class="section-subtitle">Watch curated stories on Ongole's history using our responsive custom video player plugin.</p>
             
             <div class="youtube-grid">
-                <!-- Sample MP4 Video Card with Plyr Plugin -->
                 <div class="youtube-card">
                     <div class="player-container">
                         <video playsinline controls data-poster="https://via.placeholder.com/320x180?text=Ongole+Anthem">
@@ -370,12 +368,20 @@
         </section>
     </div>
 
-    <!-- Admin Login Modal -->
+    <!-- Admin Login Modal with Math Captcha -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <h3 style="color: var(--ongole-green); margin-bottom: 15px;">Admin Authentication</h3>
-            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter the passcode to access upload and publishing tools.</p>
-            <input type="password" id="adminPassword" placeholder="Enter admin passcode" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
+            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter passcode and solve captcha to proceed.</p>
+            <input type="password" id="adminPassword" placeholder="Enter admin passcode" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 12px;">
+            
+            <!-- Math Captcha Elements -->
+            <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <span id="captchaQuestion" style="font-weight: 700; color: var(--ongole-green); font-size: 0.95rem;"></span>
+                <button type="button" onclick="generateCaptcha()" title="Refresh Captcha" style="background: none; border: none; cursor: pointer; color: #64748b;"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            <input type="number" id="captchaInput" placeholder="Enter Captcha Answer" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
+
             <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="verifyAdmin()">Login</button>
             <button onclick="closeModal()" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.85rem;">Cancel</button>
         </div>
@@ -395,14 +401,28 @@
     <!-- Plyr JS Plugin -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
-    <!-- JavaScript Controllers -->
+    <!-- JavaScript Controllers with Captcha & Security Hardening -->
     <script>
-        // Initialize Plyr Video Player on load
+        let expectedCaptchaAnswer = 0;
+
+        // Generate a random math captcha question
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            expectedCaptchaAnswer = num1 + num2;
+            document.getElementById('captchaQuestion').textContent = `Solve: ${num1} + ${num2} = ?`;
+            document.getElementById('captchaInput').value = '';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const players = Plyr.setup('.player-container video', {
                 controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
                 speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] }
             });
+
+            if (sessionStorage.getItem('omc_admin_authenticated') === 'true') {
+                document.getElementById('adminDashboard').style.display = 'block';
+            }
         });
 
         // Page Navigation Controller
@@ -439,7 +459,10 @@
         updateCountdown();
 
         // Admin Modal Controls
-        function openModal() { document.getElementById('adminModal').style.display = 'block'; }
+        function openModal() { 
+            generateCaptcha(); // Generate new captcha each time modal opens
+            document.getElementById('adminModal').style.display = 'block'; 
+        }
         function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         // Secure SHA-256 Hash Verification Function
@@ -452,22 +475,33 @@
 
         async function verifyAdmin() {
             const pass = document.getElementById('adminPassword').value;
+            const userCaptchaInput = parseInt(document.getElementById('captchaInput').value, 10);
+
+            // Verify Captcha First
+            if (userCaptchaInput !== expectedCaptchaAnswer) {
+                alert('Incorrect Captcha answer. Please try again.');
+                generateCaptcha();
+                return;
+            }
+
             // Pre-calculated SHA-256 hash for "Omc@ongole122"
             const storedHash = "5a6a683e3aa7b483c6607cdcc2df57b494632d43eeb3fcaea887a2d1d0c5a2c2"; 
-            
             const enteredHash = await hashPassword(pass);
 
             if (enteredHash === storedHash) {
                 closeModal();
                 document.getElementById('adminPassword').value = '';
                 document.getElementById('adminDashboard').style.display = 'block';
+                sessionStorage.setItem('omc_admin_authenticated', 'true');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 alert('Incorrect passcode. Access denied.');
+                generateCaptcha(); // Reset captcha on failure
             }
         }
 
         function logout() {
+            sessionStorage.removeItem('omc_admin_authenticated');
             document.getElementById('adminDashboard').style.display = 'none';
         }
 
@@ -485,7 +519,7 @@
             });
         }
 
-        // Dynamic Upload Handler (Admin) supporting images and MP4 files with Plyr
+        // XSS-Safe Dynamic Upload Handler (Admin) using textContent for text safety
         function uploadFiles() {
             const fileInput = document.getElementById('fileInput');
             const dayTag = document.getElementById('uploadDayTag').value;
@@ -504,33 +538,45 @@
                 card.className = 'gallery-card';
                 card.setAttribute('data-category', dayTag);
                 
+                const tagSpan = document.createElement('span');
+                tagSpan.className = 'media-tag';
+                tagSpan.textContent = dayTag;
+                card.appendChild(tagSpan);
+
                 if(file.type === 'video/mp4') {
-                    card.innerHTML = `
-                        <span class="media-tag">${dayTag}</span>
-                        <div class="player-container">
-                            <video playsinline controls>
-                                <source src="${fileURL}" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="gallery-info">
-                            <h4>${file.name}</h4>
-                            <span>Uploaded Video</span>
-                        </div>
-                    `;
+                    const playerDiv = document.createElement('div');
+                    playerDiv.className = 'player-container';
+                    const videoElem = document.createElement('video');
+                    videoElem.setAttribute('playsinline', '');
+                    videoElem.setAttribute('controls', '');
+                    const sourceElem = document.createElement('source');
+                    sourceElem.src = fileURL;
+                    sourceElem.type = 'video/mp4';
+                    videoElem.appendChild(sourceElem);
+                    playerDiv.appendChild(videoElem);
+                    card.appendChild(playerDiv);
                 } else {
-                    card.innerHTML = `
-                        <span class="media-tag">${dayTag}</span>
-                        <img src="${fileURL}" class="gallery-media" alt="Uploaded Media">
-                        <div class="gallery-info">
-                            <h4>${file.name}</h4>
-                            <span>Recently Uploaded</span>
-                        </div>
-                    `;
+                    const imgElem = document.createElement('img');
+                    imgElem.src = fileURL;
+                    imgElem.className = 'gallery-media';
+                    imgElem.alt = 'Uploaded Media';
+                    card.appendChild(imgElem);
                 }
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'gallery-info';
+                const h4Elem = document.createElement('h4');
+                h4Elem.textContent = file.name; // Safe against XSS
+                const spanElem = document.createElement('span');
+                spanElem.textContent = 'Uploaded Media';
+                
+                infoDiv.appendChild(h4Elem);
+                infoDiv.appendChild(spanElem);
+                card.appendChild(infoDiv);
+
                 galleryGrid.prepend(card);
             }
 
-            // Re-initialize Plyr for any freshly added video cards
             Plyr.setup('.gallery-card .player-container video');
 
             document.getElementById('adminStatus').innerText = 'Media uploaded successfully!';
@@ -538,11 +584,11 @@
             fileInput.value = '';
         }
 
-        // Dynamic Event Handler (Admin)
+        // XSS-Safe Dynamic Event Handler (Admin) using textContent
         function addEvent() {
-            const title = document.getElementById('eventTitle').value;
+            const title = document.getElementById('eventTitle').value.trim();
             const date = document.getElementById('eventDate').value;
-            const desc = document.getElementById('eventDesc').value;
+            const desc = document.getElementById('eventDesc').value.trim();
             const eventsList = document.getElementById('eventsList');
 
             if(!title || !date || !desc) {
@@ -553,21 +599,38 @@
             const eventCard = document.createElement('div');
             eventCard.className = 'event-card';
             
+            const contentDiv = document.createElement('div');
+            const h3Elem = document.createElement('h3');
+            h3Elem.style.color = 'var(--ongole-green)';
+            h3Elem.style.fontSize = '1.2rem';
+            h3Elem.style.marginBottom = '6px';
+            h3Elem.textContent = title; // Safe against XSS
+
+            const pElem = document.createElement('p');
+            pElem.style.color = '#64748b';
+            pElem.style.fontSize = '0.95rem';
+            pElem.textContent = desc; // Safe against XSS
+
+            contentDiv.appendChild(h3Elem);
+            contentDiv.appendChild(pElem);
+            eventCard.appendChild(contentDiv);
+
             const dateObj = new Date(date);
             const monthStr = dateObj.toLocaleString('default', { month: 'short' });
             const dayNum = dateObj.getDate();
             const yearNum = dateObj.getFullYear();
 
-            eventCard.innerHTML = `
-                <div>
-                    <h3 style="color: var(--ongole-green); font-size: 1.2rem; margin-bottom: 6px;">${title}</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">${desc}</p>
-                </div>
-                <div class="event-date-badge">
-                    <span>${monthStr} ${dayNum}</span>
-                    <small>${yearNum}</small>
-                </div>
-            `;
+            const badgeDiv = document.createElement('div');
+            badgeDiv.className = 'event-date-badge';
+            const spanDate = document.createElement('span');
+            spanDate.textContent = `${monthStr} ${dayNum}`;
+            const smallYear = document.createElement('small');
+            smallYear.textContent = yearNum;
+
+            badgeDiv.appendChild(spanDate);
+            badgeDiv.appendChild(smallYear);
+            eventCard.appendChild(badgeDiv);
+
             eventsList.prepend(eventCard);
             document.getElementById('adminStatus').innerText = 'Event published successfully!';
             setTimeout(() => { document.getElementById('adminStatus').innerText = ''; }, 3000);
