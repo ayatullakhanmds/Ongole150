@@ -375,7 +375,7 @@
         <div class="modal-content">
             <h3 style="color: var(--ongole-green); margin-bottom: 15px;">Admin Authentication</h3>
             <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter the passcode to access upload and publishing tools.</p>
-            <input type="password" id="adminPassword" placeholder="Passcode (Default: admin123)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
+            <input type="password" id="adminPassword" placeholder="Passcode (otp)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
             <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="verifyAdmin()">Login</button>
             <button onclick="closeModal()" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.85rem;">Cancel</button>
         </div>
@@ -444,7 +444,7 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPassword').value;
-            if (pass === 'admin123') {
+            if (pass === 'Omc@ongole') {
                 closeModal();
                 document.getElementById('adminDashboard').style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
