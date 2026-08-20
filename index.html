@@ -341,4 +341,142 @@
                     </div>
                     <div>
                         <h3 style="color:var(--ongole-green); font-size:1.1rem; margin-bottom:4px;">Civic Awards & Cultural Finale</h3>
-             
+                        <p style="font-size:0.85rem; color:#64748b;">Recognizing prominent citizens, artists, and community leaders who contributed to Ongole's growth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= PAGE 7: EVENTS ================= -->
+    <div id="page-events" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Anniversary Events Schedule</h2>
+            <p class="section-subtitle">Stay updated with upcoming programs, public meetings, and cultural fests.</p>
+            <div class="events-container" id="eventsList">
+                <div class="event-card">
+                    <div>
+                        <h3 style="color: var(--ongole-green); font-size: 1.2rem; margin-bottom: 6px;">Sesquicentennial Grand Opening</h3>
+                        <p style="color: #64748b; font-size: 0.95rem;">Official commencement ceremony with civic dignitaries, historical photo displays, and cultural performances at the Town Hall grounds.</p>
+                    </div>
+                    <div class="event-date-badge">
+                        <span>Sep 30</span>
+                        <small>2026</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= PAGE 8: ABOUT ================= -->
+    <div id="page-about" class="page-section">
+        <section class="container" style="max-width: 800px;">
+            <h2 class="section-title">About Ongole Sesquicentennial</h2>
+            <p style="line-height: 1.6; color: #334155; margin-bottom: 15px;">
+                The Ongole 150 Years Sesquicentennial portal marks a historic milestone celebrating 150 years of municipal governance since September 30, 1876. This platform preserves our rich heritage, honors our freedom fighters, and highlights our progress into a modern municipal corporation.
+            </p>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script>
+        let expectedCaptchaAnswer;
+
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            expectedCaptchaAnswer = num1 + num2;
+            document.getElementById('captchaQuestion').innerText = `Solve: ${num1} + ${num2} = ?`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateCaptcha();
+
+            if (sessionStorage.getItem('omc_admin_authenticated') === 'true') {
+                document.getElementById('adminDashboard').style.display = 'block';
+            }
+        });
+
+        function openModal() {
+            document.getElementById('adminModal').style.display = 'flex';
+            generateCaptcha();
+        }
+
+        function closeModal() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        async function verifyAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            const userInput = parseInt(document.getElementById('captchaInput').value);
+
+            if (userInput !== expectedCaptchaAnswer) {
+                alert('Incorrect Captcha answer. Please try again.');
+                generateCaptcha();
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    sessionStorage.setItem('omc_admin_authenticated', 'true');
+                    document.getElementById('adminModal').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    alert('Incorrect passcode. Access denied.');
+                    generateCaptcha();
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+                generateCaptcha();
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('omc_admin_authenticated');
+            document.getElementById('adminDashboard').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchPage(pageId, btn) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active-page');
+            });
+            document.getElementById('page-' + pageId).classList.add('active-page');
+
+            document.querySelectorAll('#navbar button').forEach(button => {
+                button.classList.remove('active-nav');
+            });
+            btn.classList.add('active-nav');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Countdown Timer Logic
+        const targetDate = new Date('September 30, 2026 00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                document.getElementById('days').innerText = Math.floor(difference / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((difference % (1000 * 60)) / 1000);
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
