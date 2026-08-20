@@ -401,7 +401,7 @@
     <!-- Plyr JS Plugin -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
-    <!-- JavaScript Controllers with Captcha & Security Hardening -->
+    <!-- JavaScript Controllers -->
     <script>
         let expectedCaptchaAnswer = 0;
 
@@ -460,20 +460,13 @@
 
         // Admin Modal Controls
         function openModal() { 
-            generateCaptcha(); // Generate new captcha each time modal opens
+            generateCaptcha(); 
             document.getElementById('adminModal').style.display = 'block'; 
         }
         function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-        // Secure SHA-256 Hash Verification Function
-        async function hashPassword(string) {
-            const utf8 = new TextEncoder().encode(string);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        async function verifyAdmin() {
+        // Direct Secure Verification Function
+        function verifyAdmin() {
             const pass = document.getElementById('adminPassword').value;
             const userCaptchaInput = parseInt(document.getElementById('captchaInput').value, 10);
 
@@ -484,11 +477,7 @@
                 return;
             }
 
-            // Pre-calculated SHA-256 hash for "Omc@ongole122"
-            const storedHash = "5a6a683e3aa7b483c6607cdcc2df57b494632d43eeb3fcaea887a2d1d0c5a2c2"; 
-            const enteredHash = await hashPassword(pass);
-
-            if (enteredHash === storedHash) {
+            if (pass === 'Omc@ongole122') {
                 closeModal();
                 document.getElementById('adminPassword').value = '';
                 document.getElementById('adminDashboard').style.display = 'block';
@@ -496,7 +485,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 alert('Incorrect passcode. Access denied.');
-                generateCaptcha(); // Reset captcha on failure
+                generateCaptcha(); 
             }
         }
 
@@ -519,7 +508,7 @@
             });
         }
 
-        // XSS-Safe Dynamic Upload Handler (Admin) using textContent for text safety
+        // XSS-Safe Dynamic Upload Handler (Admin)
         function uploadFiles() {
             const fileInput = document.getElementById('fileInput');
             const dayTag = document.getElementById('uploadDayTag').value;
@@ -566,7 +555,7 @@
                 const infoDiv = document.createElement('div');
                 infoDiv.className = 'gallery-info';
                 const h4Elem = document.createElement('h4');
-                h4Elem.textContent = file.name; // Safe against XSS
+                h4Elem.textContent = file.name; 
                 const spanElem = document.createElement('span');
                 spanElem.textContent = 'Uploaded Media';
                 
@@ -584,7 +573,7 @@
             fileInput.value = '';
         }
 
-        // XSS-Safe Dynamic Event Handler (Admin) using textContent
+        // XSS-Safe Dynamic Event Handler (Admin)
         function addEvent() {
             const title = document.getElementById('eventTitle').value.trim();
             const date = document.getElementById('eventDate').value;
@@ -604,12 +593,12 @@
             h3Elem.style.color = 'var(--ongole-green)';
             h3Elem.style.fontSize = '1.2rem';
             h3Elem.style.marginBottom = '6px';
-            h3Elem.textContent = title; // Safe against XSS
+            h3Elem.textContent = title; 
 
             const pElem = document.createElement('p');
             pElem.style.color = '#64748b';
             pElem.style.fontSize = '0.95rem';
-            pElem.textContent = desc; // Safe against XSS
+            pElem.textContent = desc; 
 
             contentDiv.appendChild(h3Elem);
             contentDiv.appendChild(pElem);
