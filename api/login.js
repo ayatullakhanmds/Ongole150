@@ -12,7 +12,7 @@ export default function handler(req, res) {
   }
 
   if (password === adminPassword) {
-    return.status(200).json({ success: true, message: 'Authentication successful.' });
+    return res.status(200).json({ success: true, message: 'Authentication successful.' });
   } else {
     return res.status(401).json({ success: false, message: 'Incorrect passcode.' });
   }
