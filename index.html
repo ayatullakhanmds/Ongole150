@@ -76,7 +76,7 @@
             <h1>150 Years of Glorious Ongole</h1>
             <p>Honoring a century and a half of heritage, culture, resilience, and modern urban transformation.</p>
             
-            <!-- Redesigned Attractive Solid Countdown Timer to Sep 30, 2026 -->
+            <!-- Countdown Timer to Sep 30, 2026 -->
             <div class="countdown-wrapper">
                 <div class="countdown-title"><i class="fa-solid fa-hourglass-half"></i> Countdown to 150th Grand Finale</div>
                 <div class="countdown-container" id="countdownTimer">
@@ -375,7 +375,7 @@
         <div class="modal-content">
             <h3 style="color: var(--ongole-green); margin-bottom: 15px;">Admin Authentication</h3>
             <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter the passcode to access upload and publishing tools.</p>
-            <input type="password" id="adminPassword" placeholder="Passcode (otp)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
+            <input type="password" id="adminPassword" placeholder="Enter admin passcode" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px;">
             <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="verifyAdmin()">Login</button>
             <button onclick="closeModal()" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.85rem;">Cancel</button>
         </div>
@@ -444,12 +444,13 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPassword').value;
-            if (pass === 'Omc@ongole') {
+            if (pass === 'Omc@ongole122') {
                 closeModal();
+                document.getElementById('adminPassword').value = '';
                 document.getElementById('adminDashboard').style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                alert('Incorrect passcode. Try "admin123"');
+                alert('Incorrect passcode. Access denied.');
             }
         }
 
