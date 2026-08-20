@@ -442,9 +442,22 @@
         function openModal() { document.getElementById('adminModal').style.display = 'block'; }
         function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-        function verifyAdmin() {
+        // Secure SHA-256 Hash Verification Function
+        async function hashPassword(string) {
+            const utf8 = new TextEncoder().encode(string);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function verifyAdmin() {
             const pass = document.getElementById('adminPassword').value;
-            if (pass === 'Omc@ongole122') {
+            // Pre-calculated SHA-256 hash for "Omc@ongole122"
+            const storedHash = "5a6a683e3aa7b483c6607cdcc2df57b494632d43eeb3fcaea887a2d1d0c5a2c2"; 
+            
+            const enteredHash = await hashPassword(pass);
+
+            if (enteredHash === storedHash) {
                 closeModal();
                 document.getElementById('adminPassword').value = '';
                 document.getElementById('adminDashboard').style.display = 'block';
