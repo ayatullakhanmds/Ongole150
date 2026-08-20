@@ -1,15 +1,19 @@
-// Example Serverless Function for Vercel/Netlify
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
+  }
 
-    const { password } = req.body;
-    
-    // Compare against the server's hidden environment variable
-    if (password === process.env.ADMIN_PASSWORD) {
-        return res.status(200).json({ success: true, token: 'secure_auth_token_xyz' });
-    } else {
-        return res.status(401).json({ success: false, error: 'Incorrect passcode' });
-    }
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword) {
+    return res.status(500).json({ success: false, message: 'Server configuration error: ADMIN_PASSWORD not set.' });
+  }
+
+  if (password === adminPassword) {
+    return.status(200).json({ success: true, message: 'Authentication successful.' });
+  } else {
+    return res.status(401).json({ success: false, message: 'Incorrect passcode.' });
+  }
 }
